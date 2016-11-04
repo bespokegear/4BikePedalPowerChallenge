@@ -29,7 +29,7 @@ Each 'race' will take 30 - 180 seconds (this will vary and be adjustable).
 The race will start by pressing the GREEN button (or A on remote).
 A reset can be performed at any time by pressing RED button (or B on remote)
 
-Serial Data: '''"aRESET"'''
+Serial Data: 'aRESET'
 
 We want to give a 5...4...3..2...1.. Countdown on the timer.
 
