@@ -3,8 +3,8 @@ Code for a 4- bike pedal power challenge unit. Arduino Mega Code and Processing 
 
 
 #Pedal Power Unit Program Specifications
-##Written by: 	Matt Little
-##Date:		3/11/2016	
+#####Written by: 	Matt Little
+#####Date:		3/11/2016	
 #Overview
 This unit has:
 4 x Pedal generators as inputs
@@ -88,8 +88,8 @@ Set using the Timer display.
 
 #Arduino Pins:
 Arduino Mega Connections
-D0:Rx0 DEBUG
-D1:Tx0 DEBUG
+*D0:Rx0 DEBUG
+*D1:Tx0 DEBUG
 D2:~ 
 D3:~
 D4:~
