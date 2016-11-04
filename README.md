@@ -101,22 +101,22 @@ Arduino Mega Connections
 |D7:~ |PWM2||
 |D8:~ |PWM3||
 |D9:~ |PWM4||
-|D10:~ |REM 1||
-|D11: ~ |REM 2||
+|D10:~ |REM 1|Remote Switch A|
+|D11: ~ |REM 2|Remote Switch B|
 |D12: ~|||
 |D13: ~ |||
 |D14: |LED 1||
 |D15: |LED 2||
 |D16: |LED 3||
 |D17: |LED 4||
-|D18:|Tx1 EXT||
-|D19:|Rx1 EXT||
-|D20: |SW1||
-|D21: |SW2||
+|D18:|Tx1 EXT|XRF wireless output|
+|D19:|Rx1 EXT|XRF wireless output|
+|D20: |SW1|GREEN switch|
+|D21: |SW2|RED Switch|
 |D22: |sLATCH||
 |D23: |||
 |D24: |sDATA||
-|D25: |sENABLE||
+|D25: |sENABLE|Enable display. Low = ON|
 |D26:|||
 |D27: |sCLK||
 |D28:|||
