@@ -89,7 +89,9 @@ Set using the Timer display.
 #Arduino Pins:
 Arduino Mega Connections
 
-*D0:Rx0 DEBUG
+|Pin | Function | Notes|
+|----|:----------:|------|
+|D0:|Rx0 |DEBUG|
 
 *D1:Tx0 DEBUG
 
