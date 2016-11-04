@@ -63,8 +63,11 @@ This will be updated every 0.25 seconds, but we might need to smooth it….depen
 
 At the end of the race (when timer = 0).
 The race will finish with the command:
+
 > "aEND"
+
 The arduino will then send the data of the highest score from each cyclist in the format:
+
 > "aRESULTAxxxxxBxxxxxCxxxxxDxxxxxt"
 
 The person with the highest power will get a ‘reward’ on their LED display.
