@@ -29,11 +29,11 @@ Each 'race' will take 30 - 180 seconds (this will vary and be adjustable).
 The race will start by pressing the GREEN button (or A on remote).
 A reset can be performed at any time by pressing RED button (or B on remote)
 
-Serial Data: 'aRESET'
+> Serial Data: "aRESET"
 
 We want to give a 5...4...3..2...1.. Countdown on the timer.
 
-Serial Data: '''"aSTART"'''
+> Serial Data: "aSTART"
 
 Timer will then start to count down from (say) 30 Seconds in 0.1 Second intervals.
 
@@ -41,13 +41,13 @@ Every 0.25 Seconds the power for all 4 players will be calculated.
 The maximum power will be stored within the Arudino for EACH player.
 
 This data will be streamed out on the serial port in the format:
-'''"aA*****B*****C*****D*****T******t"'''
+> "aAxxxxxBxxxxxCxxxxxDxxxxxTxxxxxxxt"
 
 This will have the data:
-Cyclist A has power '***.**', where this will be a number in Watts from 000.00 to 999.99.
-Cyclist B has power '***.**', where this will be a number in Watts from 000.00 to 999.99.
-Cyclist C has power '***.**', where this will be a number in Watts from 000.00 to 999.99.
-Cyclist D has power '***.**', where this will be a number in Watts from 000.00 to 999.99.
+* Cyclist A has power 'xxx.xx', where this will be a number in Watts from 000.00 to 999.99.
+* Cyclist B has power 'xxx.xx', where this will be a number in Watts from 000.00 to 999.99.
+* Cyclist C has power 'xxx.xx', where this will be a number in Watts from 000.00 to 999.99.
+* Cyclist D has power 'xxx.xx', where this will be a number in Watts from 000.00 to 999.99.
 
 T is the time since the race started in milliseconds (so 0.0001 seconds up to 999.9999 seconds).
 
@@ -65,9 +65,9 @@ This will be updated every 0.25 seconds, but we might need to smooth it….depen
 
 At the end of the race (when timer = 0).
 The race will finish with the command:
-'''"aEND"'''
+> "aEND"
 The arduino will then send the data of the highest score from each cyclist in the format:
-'''"aRESULTA*****B*****C*****D***** t"'''
+> "aRESULTAxxxxxBxxxxxCxxxxxDxxxxxt"
 
 The person with the highest power will get a ‘reward’ on their LED display.
 This can be a flashing reward, as we worked with on LED fairy lights. Not sure what is required here, but need to keep this configurable.
