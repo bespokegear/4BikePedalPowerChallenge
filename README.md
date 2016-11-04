@@ -2,10 +2,10 @@
 Code for a 4- bike pedal power challenge unit. Arduino Mega Code and Processing code
 
 
-Pedal Power Unit Program Specifications
-Written by: 	Matt Little
-Date:		3/11/2016	
-Overview
+#Pedal Power Unit Program Specifications
+##Written by: 	Matt Little
+##Date:		3/11/2016	
+#Overview
 This unit has:
 4 x Pedal generators as inputs
 4 x Current and Voltage sensors (measuring the 4 inputs)
@@ -16,7 +16,7 @@ This unit has:
 1 x Serial output (wired) 115200 Baud
 1 x Serial output (wireless) 115200 Baud
 1 x Timer display 3 digits (Serial data clocked out)
-Arduino Mega for control functions
+1 x Arduino Mega for control functions
 
 At ALL times the units will control the PWM output of each ‘player’ to ensure the voltage over goes above 50V DC.
 The Load will kick in at 12V DC (PWM = 0%) and go to a maximm at 50V DC (PWM = 100%). This might not be linear. This depends upon ‘feel’ of units...
@@ -71,22 +71,22 @@ The arduino will then send the data of the highest score from each cyclist in th
 The person with the highest power will get a ‘reward’ on their LED display.
 This can be a flashing reward, as we worked with on LED fairy lights. Not sure what is required here, but need to keep this configurable.
 
-Adjustable parameters:
+#Adjustable parameters:
 We will need to be able to adjust some parameters ‘on the fly’.
 These need to be stored in EEPROM when adjusted.
 
-Timer Value: This can be in whole seconds from 0-999. 
+##Timer Value: This can be in whole seconds from 0-999. 
 Set using the Timer display.
 
-Number of LED units attached to each LED output.
+##Number of LED units attached to each LED output.
 The LED units are configurable to have either 1,2 or 3 units. This equates to 60/120/180 in a string.
 
-The maximum power displayed.
+##The maximum power displayed.
 This is a value from 100-999W.
 Set using the Timer display.
-Overview Diagram:
+#Overview Diagram:
 
-Arduino Pins:
+#Arduino Pins:
 Arduino Mega Connections
 D0:Rx0 DEBUG
 D1:Tx0 DEBUG
@@ -147,7 +147,7 @@ A13:
 A14:
 A15:
 
-Voltage and Current Sensors:
+#Voltage and Current Sensors:
 These monitor the power from the cyclist.
 They have a resistive voltage sensor with the values:
 R1 = 560k and R2 = 10k.
@@ -165,10 +165,10 @@ So conversion is:
 Current = (Read Voltage – (Vs/2)) / 0.04
 Voltage at +50A = 4.5V or -50A = 1V
 
-The power is then calculated
+The power is then calculated.
 
 
-PWM Motor Controllers:
+#PWM Motor Controllers:
 
 4 x PWM outputs required.
 Measuring the voltage and increasing/decreasing the PWM as required.
@@ -184,10 +184,8 @@ Serial Output:
 115200 Baud 8N1
 Same data on Serial( lead) and Serial1 (wireless)
 
-Display Program:
+#Display Program:
 This has been written in processing and take the serial output from the Arduino and displays and records the data.
-
-
 
 The display program will be a separate program which will run on a PC and display information via a projector.
 
@@ -201,15 +199,6 @@ A = Red
 B = Green
 C = Blue
 D = Yellow
-
-Example of display:
-
-152W
-59W
-35W
-
-430W
-
 
 The application will need to keep a record of the power data and the time.
 
@@ -245,12 +234,7 @@ The arduino will then send the data of the highest score from each cyclist in th
 "aRESULTA*****B*****C*****D***** t"
  
 These will then be displayed on the screen with the winning cyclist flashing in their colour, while the other cyclists will see their score but in slightly smaller/subdued lettering.
-This is sort of shown here:
-125W
-59W
-35W
 
-430W
 The yellow colour would be flashing to make it more obvious.
 
 This will be shown until the next race is started.
