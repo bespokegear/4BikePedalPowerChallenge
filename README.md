@@ -7,16 +7,16 @@ Code for a 4- bike pedal power challenge unit. Arduino Mega Code and Processing 
 #####Date:		3/11/2016	
 #Overview
 This unit has:
-4 x Pedal generators as inputs
-4 x Current and Voltage sensors (measuring the 4 inputs)
-4 x Resistive loads controlled by PWM controllers
-4 x LED output panels (each Neopixel based (ws2811) LED units. 60-180 LEDs in each display
-2 x Input Switches
-2 x Remote input switches
-1 x Serial output (wired) 115200 Baud
-1 x Serial output (wireless) 115200 Baud
-1 x Timer display 3 digits (Serial data clocked out)
-1 x Arduino Mega for control functions
+* 4 x Pedal generators as inputs
+* 4 x Current and Voltage sensors (measuring the 4 inputs)
+* 4 x Resistive loads controlled by PWM controllers
+* 4 x LED output panels (each Neopixel based (ws2811) LED units. 60-180 LEDs in each display
+* 2 x Input Switches
+* 2 x Remote input switches
+* 1 x Serial output (wired) 115200 Baud
+* 1 x Serial output (wireless) 115200 Baud
+* 1 x Timer display 3 digits (Serial data clocked out)
+* 1 x Arduino Mega for control functions
 
 At ALL times the units will control the PWM output of each ‘player’ to ensure the voltage over goes above 50V DC.
 The Load will kick in at 12V DC (PWM = 0%) and go to a maximm at 50V DC (PWM = 100%). This might not be linear. This depends upon ‘feel’ of units...
