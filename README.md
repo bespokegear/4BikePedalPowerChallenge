@@ -2,10 +2,8 @@
 Code for a 4- bike pedal power challenge unit. Arduino Mega Code and Processing code
 
 
-#Pedal Power Unit Program Specifications
-#####Written by: 	Matt Little
-#####Date:		3/11/2016	
-#Overview
+#Pedal Power Unit Arduino Program Specifications
+##Overview
 This unit has:
 * 4 x Pedal generators as inputs
 * 4 x Current and Voltage sensors (measuring the 4 inputs)
@@ -72,22 +70,22 @@ The arduino will then send the data of the highest score from each cyclist in th
 The person with the highest power will get a ‘reward’ on their LED display.
 This can be a flashing reward, as we worked with on LED fairy lights. Not sure what is required here, but need to keep this configurable.
 
-#Adjustable parameters:
+##Adjustable parameters:
 We will need to be able to adjust some parameters ‘on the fly’.
 These need to be stored in EEPROM when adjusted.
 
-##Timer Value: This can be in whole seconds from 0-999. 
+###Timer Value: This can be in whole seconds from 0-999. 
 Set using the Timer display.
 
-##Number of LED units attached to each LED output.
+###Number of LED units attached to each LED output.
 The LED units are configurable to have either 1,2 or 3 units. This equates to 60/120/180 in a string.
 
-##The maximum power displayed.
+###The maximum power displayed.
 This is a value from 100-999W.
 Set using the Timer display.
-#Overview Diagram:
+##Overview Diagram:
 
-#Arduino Pins:
+##Arduino Pins:
 Arduino Mega Connections
 
 |Pin | Function | Notes|
@@ -150,7 +148,7 @@ Arduino Mega Connections
 |A14:|||
 |A15:|||
 
-#Voltage and Current Sensors:
+##Voltage and Current Sensors:
 These monitor the power from the cyclist.
 They have a resistive voltage sensor with the values:
 R1 = 560k and R2 = 10k.
@@ -171,7 +169,7 @@ Voltage at +50A = 4.5V or -50A = 1V
 The power is then calculated.
 
 
-#PWM Motor Controllers:
+##PWM Motor Controllers:
 
 4 x PWM outputs required.
 Measuring the voltage and increasing/decreasing the PWM as required.
@@ -212,30 +210,47 @@ The race is totally controlled by the Power Control Box. This uses an Arduino Me
 This might be a direct Serial-USB connection or it could be a wireless serial link, both should work the same.
 
 The reset command will be sent 5 seconds before the race starts. This will reset the power values to zero.
-"aRESET"
 
-The race will start with the command:
+> Serial Data: "aRESET"
 
-"aSTART"
+Then, 5 seconds later:
 
-Data will then be sent every (approx) 0.25 seconds in the format:
-"aA*****B*****C*****D*****T******t"
+> Serial Data: "aSTART"
+
+Timer will then start to count down from (say) 30 Seconds in 0.1 Second intervals.
+
+Every 0.25 Seconds the power for all 4 players will be calculated.
+The maximum power will be stored within the Arudino for EACH player.
+
+This data will be streamed out on the serial port in the format:
+> "aAxxxxxBxxxxxCxxxxxDxxxxxTxxxxxxxt"
 
 This will have the data:
-Cyclist A has power ***.**, where this will be a number in Watts from 000.00 to 999.99.
-Cyclist B has power ***.**, where this will be a number in Watts from 000.00 to 999.99.
-Cyclist C has power ***.**, where this will be a number in Watts from 000.00 to 999.99.
-Cyclist D has power ***.**, where this will be a number in Watts from 000.00 to 999.99.
+* Cyclist A has power 'xxx.xx', where this will be a number in Watts from 000.00 to 999.99.
+* Cyclist B has power 'xxx.xx', where this will be a number in Watts from 000.00 to 999.99.
+* Cyclist C has power 'xxx.xx', where this will be a number in Watts from 000.00 to 999.99.
+* Cyclist D has power 'xxx.xx', where this will be a number in Watts from 000.00 to 999.99.
 
 T is the time since the race started in milliseconds (so 0.0001 seconds up to 999.9999 seconds).
 
-This data will also be written to a .csv file along with the timestamp.
+The power will also be displayed on each of the LED outputs.
+This will light up four different colours depending upon the player:
 
+* Player A = Red
+* Player B = Green
+* Player C = Blue
+* Player D = Yellow
+
+The display will show the proportion of the maximum power (Pmax is the same for all players).
+
+This will be updated every 0.25 seconds, but we might need to smooth it….depends how it looks.
+
+At the end of the race (when timer = 0).
 The race will finish with the command:
-"aEND"
+> "aEND"
 The arduino will then send the data of the highest score from each cyclist in the format:
-"aRESULTA*****B*****C*****D***** t"
- 
+> "aRESULTAxxxxxBxxxxxCxxxxxDxxxxxt"
+
 These will then be displayed on the screen with the winning cyclist flashing in their colour, while the other cyclists will see their score but in slightly smaller/subdued lettering.
 
 The yellow colour would be flashing to make it more obvious.
