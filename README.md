@@ -223,6 +223,7 @@ Every 0.25 Seconds the power for all 4 players will be calculated.
 The maximum power will be stored within the Arudino for EACH player.
 
 This data will be streamed out on the serial port in the format:
+
 > "aAxxxxxBxxxxxCxxxxxDxxxxxTxxxxxxxt"
 
 This will have the data:
@@ -247,8 +248,11 @@ This will be updated every 0.25 seconds, but we might need to smooth it….depen
 
 At the end of the race (when timer = 0).
 The race will finish with the command:
+
 > "aEND"
+
 The arduino will then send the data of the highest score from each cyclist in the format:
+
 > "aRESULTAxxxxxBxxxxxCxxxxxDxxxxxt"
 
 These will then be displayed on the screen with the winning cyclist flashing in their colour, while the other cyclists will see their score but in slightly smaller/subdued lettering.
