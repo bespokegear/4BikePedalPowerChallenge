@@ -62,8 +62,6 @@ void _GameMode::modeUpdate()
     Serial.print(elapsed);
     Serial.print(F(" pow1="));
     Serial.print(power1);
-    Serial.print(F(" pow2="));
-    Serial.print(power2);
     Serial.print(F(" e1="));
     Serial.println(_energy1);
 #endif

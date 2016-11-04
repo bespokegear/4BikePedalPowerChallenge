@@ -39,6 +39,8 @@
 #define LED1_BRIGHTNESS             255
 #define LED_UPDATE_DELAY_MS         100
 
+#define LED_BRIGHTNESS              255
+
 // GameMode parameters
 #define P1_ON_COLOR                 0xFF0000UL
 #define P1_OFF_COLOR                0x000000UL
