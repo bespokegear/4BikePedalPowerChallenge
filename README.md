@@ -92,65 +92,62 @@ Arduino Mega Connections
 |Pin | Function | Notes|
 |----|:----------:|------|
 |D0:|Rx0 |DEBUG|
-
-*D1:Tx0 DEBUG
-
-D2:~ 
-D3:~
-D4:~
-D5:~
-D6:~ PWM1
-D7:~ PWM2
-D8:~ PWM3
-D9:~ PWM4
-D10:~ REM 1
-D11: ~ REM 2
-D12: ~
-D13: ~ 
-D14: LED 1
-D15: LED 2
-D16: LED 3
-D17: LED 4
-D18:Tx1 EXT
-D19:Rx1 EXT
-D20: SW1
-D21: SW2
-D22: sLATCH
-D23: 
-D24: sDATA
-D25: sENABLE
-D26:
-D27: sCLK
-D28:
-D29:
-D30:
-D31: 
-D32: 
-D33: 
-D34:
-D35:
-D36:
-D37:
-D38:
-D39:
-
-
-A0: V1
-A1: I1
-A2: V2
-A3: I2
-A4: V3
-A5: I3
-A6: V4
-A7: I4
-A8: 
-A9:
-A10:
-A11: 
-A12: 
-A13: 
-A14:
-A15:
+|D1:|Tx0 |DEBUG|
+|D2:~||| 
+|D3:~|||
+|D4:~|||
+|D5:~|||
+|D6:~ |PWM1||
+|D7:~ |PWM2||
+|D8:~ |PWM3||
+|D9:~ |PWM4||
+|D10:~ |REM 1||
+|D11: ~ |REM 2||
+|D12: ~|||
+|D13: ~ |||
+|D14: |LED 1||
+|D15: |LED 2||
+|D16: |LED 3||
+|D17: |LED 4||
+|D18:|Tx1 EXT||
+|D19:|Rx1 EXT||
+|D20: |SW1||
+|D21: |SW2||
+|D22: |sLATCH||
+|D23: |||
+|D24: |sDATA||
+|D25: |sENABLE||
+|D26:|||
+|D27: |sCLK||
+|D28:|||
+|D29:|||
+|D30:|||
+|D31: |||
+|D32: |||
+|D33: |||
+|D34:|||
+|D35:|||
+|D36:|||
+|D37:|||
+|D38:|||
+|D39:|||
+|-----|-----|------|
+|A0: |V1||
+|A1: |I1||
+|A2: |V2||
+|A3: |I2||
+|A4:| V3||
+|A5:| I3||
+|A6:| V4||
+|A7:| I4||
+|A8:||| 
+|A9:|||
+|A10:|||
+|A11:||| 
+|A12:|||
+|A13:|||
+|A14:|||
+|A15:|||
 
 #Voltage and Current Sensors:
 These monitor the power from the cyclist.
