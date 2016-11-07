@@ -1,15 +1,17 @@
 #include <Arduino.h>
-#include "VoltageSampler.h"
+#include "Player.h"
 #include "LoadController.h"
 #include "Config.h"
 
-VoltageSampler vin(PEDAL1_VOLTAGE_PIN, PEDAL1_VOLTAGE_R1, PEDAL1_VOLTAGE_R2);
-LoadController load(vin, PWM_LOAD_PIN1);
+Player p1(PEDAL1_VOLTAGE_PIN, PEDAL1_VOLTAGE_R1, PEDAL1_VOLTAGE_R2,
+          LED1_DATA_PIN, LED1_COUNT, LED1_TYPE,
+          PWM_LOAD_PIN1);
+LoadController load(p1, PWM_LOAD_PIN1);
 
 void setup()
 {
     Serial.begin(115200);
-    vin.begin();
+    p1.begin();
     load.begin();
     delay(500);
     Serial.println(F("E:setup"));
@@ -17,10 +19,10 @@ void setup()
 
 void loop()
 {
-    vin.update();
+    p1.update();
     load.update();
-    Serial.print(F("vin="));
-    Serial.print(vin.getVoltage());
+    Serial.print(F("p1.getVoltage()="));
+    Serial.print(p1.getVoltage());
     Serial.print(F(", pwm="));
     Serial.println(load.getPwm());
     delay(5);

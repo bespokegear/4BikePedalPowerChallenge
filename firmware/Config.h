@@ -34,8 +34,8 @@
 // This is for initialising the Adafruit_NeoPixel library
 // and will depend on the LED type
 #define LED1_TYPE                   (NEO_GRB + NEO_KHZ800)
-#define LED1_DATA_PIN               3
-#define LED1_COUNT                  109
+#define LED1_DATA_PIN               14
+#define LED1_COUNT                  180
 #define LED1_BRIGHTNESS             255
 #define LED_UPDATE_DELAY_MS         100
 
