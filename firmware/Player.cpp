@@ -16,6 +16,9 @@ Player::~Player()
 // Call from setup(), initializes pins and so on
 void Player::begin()
 {   
+#ifdef DEBUG
+    Serial.println(F("Player::begin"));
+#endif
     VoltageSampler::begin();
     _LED.begin();
     _LED.setBrightness(LED_BRIGHTNESS);
@@ -25,6 +28,9 @@ void Player::begin()
 
 void Player::update()
 {
+#ifdef DEBUG
+    Serial.println(F("Player::update"));
+#endif
     VoltageSampler::update();
 }
 

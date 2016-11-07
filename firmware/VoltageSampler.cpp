@@ -18,10 +18,16 @@ VoltageSampler::VoltageSampler(const uint8_t pin, uint16_t r1KOhm, uint16_t r2KO
 
 void VoltageSampler::begin()
 {
+#ifdef DEBUG
+    Serial.println(F("VoltageSampler::begin"));
+#endif
     // no need to set pinMode for analog inputs
 }
 
 void VoltageSampler::update() {
+#ifdef DEBUG
+    Serial.println(F("VoltageSampler::update"));
+#endif
     _samples[_idx] = voltageConversion(_pin, _r1KOhm, _r2KOhm);
     _count = _count >= VOLTAGE_SAMPLES ? VOLTAGE_SAMPLES : _count+1;
     _idx = (_idx + 1) % VOLTAGE_SAMPLES;

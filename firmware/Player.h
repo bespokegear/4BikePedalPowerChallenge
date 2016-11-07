@@ -11,10 +11,10 @@ public:
     ~Player();
 
     // Call from setup(), initializes pins and so on
-    void begin();
+    virtual void begin();
 
     // Call as frequently as possible
-    void update();
+    virtual void update();
 
 private:
     Adafruit_NeoPixel _LED;

@@ -15,6 +15,9 @@ LoadedPlayer::LoadedPlayer(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm,
 
 void LoadedPlayer::begin()
 {
+#ifdef DEBUG
+    Serial.println(F("LoadedPlayer::begin"));
+#endif
     Player::begin();
     pinMode(_pwmPin, OUTPUT);
     digitalWrite(_pwmPin, LOW);
@@ -23,6 +26,9 @@ void LoadedPlayer::begin()
 void LoadedPlayer::update()
 {
     Player::update();
+#ifdef DEBUG
+    Serial.println(F("LoadedPlayer::update"));
+#endif
     if (millis() < _last + LOAD_CONTROLLER_PERIOD_MS) {
         return;
     }
