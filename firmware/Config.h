@@ -47,10 +47,6 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 #define EEPROM_LEVEL_ADDRESS        0
 
 // GameMode parameters
-#define P1_ON_COLOR                 0xFF0000UL
-#define P1_OFF_COLOR                0x000000UL
-#define P2_ON_COLOR                 0x00FF00UL
-#define P2_OFF_COLOR                0x000000UL
 #define GAME_LEVEL_ENERGY_STEP      1000
 #define GAME_LEVEL_MAX              20
 #define GAME_LENGTH_SECONDS         30
