@@ -1,7 +1,6 @@
 #include "Config.h"
 #include "CountdownMode.h"
 #include "ClockDisplay.h"
-#include "LED1.h"
 #include <stdint.h>
 #include <Arduino.h>
 
@@ -51,13 +50,13 @@ void _CountdownMode::modeUpdate()
             ClockDisplay.display("Go!");
         }
     }
-    for (int i=LED1_COUNT-1; i>=0; i--) {
-        if (LED1.getPixelColor(i) != P1_OFF_COLOR) {
-            LED1.setPixelColor(i, P1_OFF_COLOR);
-            LED1.show();
-            break;
-        }
-    } 
+    //for (int i=LED1_COUNT-1; i>=0; i--) {
+    //    if (LED1.getPixelColor(i) != P1_OFF_COLOR) {
+    //        LED1.setPixelColor(i, P1_OFF_COLOR);
+    //        LED1.show();
+    //        break;
+    //    }
+    //} 
 }
 
 int8_t _CountdownMode::seconds()

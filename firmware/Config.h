@@ -2,6 +2,20 @@
 
 #include <Arduino.h>
 
+// Per-player config
+const uint8_t  PLAYER_VIN_PINS[]    = {  A0,  A2,  A4,  A6 };
+const uint8_t  PLAYER_IIN_PINS[]    = {  A1,  A3,  A5,  A7 };
+const uint8_t  PLAYER_PWM_PINS[]    = {   6,   7,   8,   9 };
+const uint8_t  PLAYER_LED_PINS[]    = {  14,  15,  16,  17 };
+// Player config (applies to all players)
+#define PLAYER_COUNT                4
+#define PLAYER_VIN_R1               10
+#define PLAYER_VIN_R2               560
+#define PLAYER_LED_COUNT            180
+#define PLAYER_LED_TYPE             (NEO_GRB + NEO_KHZ800)
+#define PLAYER_LED_BRIGHTNESS       255
+#define PLAYER_LED_UPDATE_MS        100
+
 // General config
 #define PEDAL1_VOLTAGE_PIN          A1
 #define PEDAL1_VOLTAGE_R1           10
@@ -29,17 +43,6 @@
 #define SCLK_PIN                    11
 #define SDATA_PIN                   12
 #define EEPROM_LEVEL_ADDRESS        0
-
-// LED strip parameters
-// This is for initialising the Adafruit_NeoPixel library
-// and will depend on the LED type
-#define LED1_TYPE                   (NEO_GRB + NEO_KHZ800)
-#define LED1_DATA_PIN               14
-#define LED1_COUNT                  180
-#define LED1_BRIGHTNESS             255
-#define LED_UPDATE_DELAY_MS         100
-
-#define LED_BRIGHTNESS              255
 
 // GameMode parameters
 #define P1_ON_COLOR                 0xFF0000UL

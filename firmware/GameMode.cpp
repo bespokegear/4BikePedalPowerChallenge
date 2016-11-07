@@ -1,7 +1,5 @@
 #include "GameMode.h"
 #include "Util.h"
-#include "Pedal1Vin.h"
-#include "LED1.h"
 #include "ClockDisplay.h"
 #include <Arduino.h>
 #include <EEPROM.h>
@@ -21,7 +19,7 @@ void _GameMode::begin()
 {
 #ifdef DEBUG
     Serial.print(F("GameMode::_begin() vinPin1="));
-    Serial.println(Pedal1Vin.getPin());
+    //Serial.println(Pedal1Vin.getPin());
 #endif
     start();
 }
@@ -54,7 +52,8 @@ void _GameMode::modeUpdate()
 {
     float elapsed = (millis() - _lastUpdate) / 1000.;
     _lastUpdate = millis();
-    float vIn1 = PEDAL1_FUDGE_FACTOR + Pedal1Vin.getVoltage();
+    //float vIn1 = PEDAL1_FUDGE_FACTOR + Pedal1Vin.getVoltage();
+    float vIn1 = 0;
     float power1 = vIn1 > PEDAL1_THRESHOLD ? vIn1*vIn1/PEDAL1_DUMP_R : 0; // P = (V^2)/R
     _energy1 += (power1 * elapsed);
 #ifdef DEBUG
@@ -68,7 +67,7 @@ void _GameMode::modeUpdate()
     writeClock();
     // Throttle writing of neopixels as too-frequent writes
     // throws off millis
-    if (_lastUpdate - _lastLEDUpdate > LED_UPDATE_DELAY_MS) {
+    if (_lastUpdate - _lastLEDUpdate > PLAYER_LED_UPDATE_MS) {
         writePixels();
         _lastLEDUpdate = _lastUpdate;
     }
@@ -109,11 +108,11 @@ void _GameMode::writePixels()
 #endif
     uint16_t i;
     bool lit;
-    for (i=0; i<LED1_COUNT; i++) {
-        bool lit = ((_energy1*LED1_COUNT) / goalEnergy()) > i;
-        LED1.setPixelColor(i, lit ? P1_ON_COLOR : P1_OFF_COLOR);
-    }
-    LED1.show();
+    //for (i=0; i<LED1_COUNT; i++) {
+    //    bool lit = ((_energy1*LED1_COUNT) / goalEnergy()) > i;
+    //    LED1.setPixelColor(i, lit ? P1_ON_COLOR : P1_OFF_COLOR);
+    //}
+    //LED1.show();
 }
 
 bool _GameMode::isFinished()

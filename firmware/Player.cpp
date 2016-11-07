@@ -21,7 +21,7 @@ void Player::begin()
 #endif
     VoltageSampler::begin();
     _LED.begin();
-    _LED.setBrightness(LED_BRIGHTNESS);
+    _LED.setBrightness(PLAYER_LED_BRIGHTNESS);
     _LED.clear();
     _LED.show();
 }
