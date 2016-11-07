@@ -35,17 +35,17 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 #define ARDUINO_VOLTAGE_PIN         A6
 #define ARDUINO_VOLTAGE_R1          10
 #define ARDUINO_VOLTAGE_R2          100
-#define RESET_BUTTON_PIN            2
-#define MODE_BUTTON_PIN             5
+#define RESET_BUTTON_PIN            20
+#define MODE_BUTTON_PIN             21
 #define HEARTBEAT_LED_PIN           13
-#define INDICATOR_LED_PIN           9
 #define BROWNOUT_HIGH               1300
 #define BROWNOUT_LOW                300
 #define VOLTAGE_SAMPLES             10
 #define CURRENT_SAMPLES             10
-#define SLATCH_PIN                  10
-#define SCLK_PIN                    11
-#define SDATA_PIN                   12
+#define SLATCH_PIN                  22
+#define SCLK_PIN                    27
+#define SDATA_PIN                   24
+#define SENABLE_PIN                 25
 #define EEPROM_LEVEL_ADDRESS        0
 
 // GameMode parameters
@@ -53,7 +53,6 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 #define GAME_LEVEL_MAX              20
 #define GAME_LENGTH_SECONDS         30
 
-
 // Other mode settings
-#define COUNTDOWN_SECONDS           3
+#define COUNTDOWN_SECONDS           5
 
