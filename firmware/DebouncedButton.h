@@ -2,8 +2,8 @@
 
 #include <stdint.h>
 
-#define DEBOUNCECOUNT   5
-#define DEBOUNCETIME    25
+#define DEBOUNCECOUNT   3
+#define DEBOUNCETIME    10
 #define NOREPRESSDELAY  300
 
 class DebouncedButton {
@@ -11,7 +11,7 @@ public:
     DebouncedButton(uint8_t pin, bool pullup=true);
     virtual void begin();
     virtual void update();
-    bool isPressed();
+    bool isPressed(bool reset=true);
     bool valueNow();
     void set(bool on);
 

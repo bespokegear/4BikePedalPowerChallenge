@@ -32,13 +32,13 @@ void DebouncedButton::update()
     }
 }
 
-bool DebouncedButton::isPressed()
+bool DebouncedButton::isPressed(bool reset)
 {
     if (millis() < _lastPress + NOREPRESSDELAY) {
         return false;
     }
     bool v = _count >= DEBOUNCECOUNT;
-    if (v) {
+    if (v && reset) {
         _lastPress = millis();   
     }
     return v;
