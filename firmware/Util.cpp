@@ -13,6 +13,13 @@ float calculateLinearity(const float percent, const float linearity)
     return cube+((percent-cube)*linearity);
 }
 
+float currentConversion(const uint8_t pin, const float vSupply)
+{
+    // return (analogRead(pin)-(vSupply/2.0)) / (0.04*vSupply/5.0);
+    float r = ((5.0*analogRead(pin)/1024.0)-(vSupply/2.0)) / (0.04*vSupply/5.0);
+    return r;
+}
+
 // From the MemoryFree library, https://github.com/maniacbug/MemoryFree
 extern unsigned int __bss_end;
 extern unsigned int __heap_start;

@@ -9,6 +9,10 @@ float voltageConversion(const uint8_t pin, const uint16_t r1KOhm, const uint16_t
 // for various pedal powered applications)
 float calculateLinearity(float percent, float linearity);
 
+// Calculate current based on a value from an analog pin and supply voltage
+// Note: device is Allegro ACS756SCB-050B-PFF-T Bi-directional 50A hall effect sensor
+float currentConversion(const uint8_t pin, const float vSupply);
+
 // From the MemoryFree library, https://github.com/maniacbug/MemoryFree
 #ifdef __cplusplus
 extern "C" {
