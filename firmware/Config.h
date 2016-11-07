@@ -56,3 +56,9 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 // Other mode settings
 #define COUNTDOWN_SECONDS           5
 
+// Button config
+#define BUTTON_DEBOUNCE_COUNT       3
+#define BUTTON_DEBOUNCE_MS          10
+#define BUTTON_NOREPEAT_MS          300
+
+

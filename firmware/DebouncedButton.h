@@ -1,10 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-
-#define DEBOUNCECOUNT   3
-#define DEBOUNCETIME    10
-#define NOREPRESSDELAY  300
+#include "Config.h"
 
 class DebouncedButton {
 public:

@@ -22,7 +22,7 @@ void DebouncedButton::update()
 {
     bool on = valueNow();
     if (on) {
-        if (millis() - _last >= DEBOUNCETIME && _count < DEBOUNCECOUNT) {
+        if (millis() - _last >= BUTTON_DEBOUNCE_MS && _count < BUTTON_DEBOUNCE_COUNT) {
             _last = millis();
             _count++;
         }
@@ -34,10 +34,10 @@ void DebouncedButton::update()
 
 bool DebouncedButton::isPressed(bool reset)
 {
-    if (millis() < _lastPress + NOREPRESSDELAY) {
+    if (millis() < _lastPress + BUTTON_NOREPEAT_MS) {
         return false;
     }
-    bool v = _count >= DEBOUNCECOUNT;
+    bool v = _count >= BUTTON_DEBOUNCE_COUNT;
     if (v && reset) {
         _lastPress = millis();   
     }
@@ -56,7 +56,7 @@ bool DebouncedButton::valueNow()
 void DebouncedButton::set(bool on)
 {
     if (on) {
-        _count = DEBOUNCECOUNT;
+        _count = BUTTON_DEBOUNCE_COUNT;
         _last = 0;
     } else {
         _count = 0;
