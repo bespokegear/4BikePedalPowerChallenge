@@ -3,9 +3,10 @@
 #include <Arduino.h>
 
 Player::Player(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm, 
-               uint8_t ledPin, uint16_t ledCount, neoPixelType ledType) :
+               uint8_t ledPin, uint16_t ledCount, neoPixelType ledType, uint32_t ledColor) :
     VoltageSampler(vinPin, r1KOhm, r2KOhm),
-    _LED(ledCount, ledPin, ledType)
+    _LED(ledCount, ledPin, ledType),
+    _ledColor(ledColor)
 {
 }
 

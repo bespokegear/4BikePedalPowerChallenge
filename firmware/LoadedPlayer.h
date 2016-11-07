@@ -7,7 +7,7 @@ class LoadedPlayer : public Player {
 public:
     LoadedPlayer(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm, 
                  uint8_t ledPin, uint16_t ledCount, neoPixelType ledType,
-                 uint8_t pwmPin);
+                 uint32_t ledColor, uint8_t pwmPin);
     void begin();
     void update();
     void loadControllerUpdate();

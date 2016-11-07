@@ -52,9 +52,9 @@ void _GameMode::modeUpdate()
 {
     float elapsed = (millis() - _lastUpdate) / 1000.;
     _lastUpdate = millis();
-    //float vIn1 = PEDAL1_FUDGE_FACTOR + Pedal1Vin.getVoltage();
+    //float vIn1 = PLAYER_VIN_FUDGE_FACTOR + Pedal1Vin.getVoltage();
     float vIn1 = 0;
-    float power1 = vIn1 > PEDAL1_THRESHOLD ? vIn1*vIn1/PEDAL1_DUMP_R : 0; // P = (V^2)/R
+    float power1 = vIn1 > PLAYER_VIN_THRESHOLD ? vIn1*vIn1/LOAD_DUMP_R_OHM : 0; // P = (V^2)/R
     _energy1 += (power1 * elapsed);
 #ifdef DEBUG
     Serial.print(F("Game elapsed="));

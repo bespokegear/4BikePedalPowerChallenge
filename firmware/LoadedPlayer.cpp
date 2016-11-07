@@ -4,8 +4,8 @@
 
 LoadedPlayer::LoadedPlayer(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm, 
                            uint8_t ledPin, uint16_t ledCount, neoPixelType ledType,
-                           uint8_t pwmPin) :
-    Player(vinPin, r1KOhm, r2KOhm, ledPin, ledCount, ledType),
+                           uint32_t ledColor, uint8_t pwmPin) :
+    Player(vinPin, r1KOhm, r2KOhm, ledPin, ledCount, ledType, ledColor),
     _pwmPin(pwmPin),
     _pwmLoad(0),
     _integral(0),

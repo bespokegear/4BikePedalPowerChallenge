@@ -10,6 +10,7 @@ const uint8_t  PLAYER_VIN_PINS[]    = {  A0,  A2,  A4,  A6 };
 const uint8_t  PLAYER_IIN_PINS[]    = {  A1,  A3,  A5,  A7 };
 const uint8_t  PLAYER_PWM_PINS[]    = {   6,   7,   8,   9 };
 const uint8_t  PLAYER_LED_PINS[]    = {  14,  15,  16,  17 };
+const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFFFF22UL };
 // Player config (applies to all players)
 #define PLAYER_VIN_R1               10
 #define PLAYER_VIN_R2               560
@@ -17,6 +18,8 @@ const uint8_t  PLAYER_LED_PINS[]    = {  14,  15,  16,  17 };
 #define PLAYER_LED_TYPE             (NEO_GRB + NEO_KHZ800)
 #define PLAYER_LED_BRIGHTNESS       255
 #define PLAYER_LED_UPDATE_MS        100
+#define PLAYER_VIN_FUDGE_FACTOR     2.1
+#define PLAYER_VIN_THRESHOLD        (PLAYER_VIN_FUDGE_FACTOR + 0.2)
 
 // Load control constants
 // Target delay for load controller updates in ms
@@ -25,20 +28,9 @@ const uint8_t  PLAYER_LED_PINS[]    = {  14,  15,  16,  17 };
 #define LOAD_CONTROLLER_WARNING_MS  20
 #define LOAD_CONTROLLER_SET_POINT   15.0
 #define LOAD_CONTROLLER_HYSTERESIS  3.0
+#define LOAD_DUMP_R_OHM             4.0
 
 // General config
-#define PEDAL1_VOLTAGE_PIN          A1
-#define PEDAL1_VOLTAGE_R1           10
-#define PEDAL1_VOLTAGE_R2           560
-#define PEDAL1_DUMP_R               4.0
-#define PEDAL1_FUDGE_FACTOR         2.1
-#define PEDAL1_THRESHOLD            PEDAL1_FUDGE_FACTOR + 0.2
-#define PEDAL2_VOLTAGE_PIN          A0
-#define PEDAL2_VOLTAGE_R1           10
-#define PEDAL2_VOLTAGE_R2           560
-#define PEDAL2_DUMP_R               4.0
-#define PEDAL2_FUDGE_FACTOR         2.1
-#define PEDAL2_THRESHOLD            PEDAL2_FUDGE_FACTOR + 0.2
 #define ARDUINO_VOLTAGE_PIN         A6
 #define ARDUINO_VOLTAGE_R1          10
 #define ARDUINO_VOLTAGE_R2          100
