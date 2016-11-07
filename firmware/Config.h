@@ -3,18 +3,28 @@
 #include <Arduino.h>
 
 // Per-player config
+// If the number of players is changes, edit Players.cpp so the
+// Players global variable has the correct number of entries...
+#define PLAYER_COUNT                4
 const uint8_t  PLAYER_VIN_PINS[]    = {  A0,  A2,  A4,  A6 };
 const uint8_t  PLAYER_IIN_PINS[]    = {  A1,  A3,  A5,  A7 };
 const uint8_t  PLAYER_PWM_PINS[]    = {   6,   7,   8,   9 };
 const uint8_t  PLAYER_LED_PINS[]    = {  14,  15,  16,  17 };
 // Player config (applies to all players)
-#define PLAYER_COUNT                4
 #define PLAYER_VIN_R1               10
 #define PLAYER_VIN_R2               560
 #define PLAYER_LED_COUNT            180
 #define PLAYER_LED_TYPE             (NEO_GRB + NEO_KHZ800)
 #define PLAYER_LED_BRIGHTNESS       255
 #define PLAYER_LED_UPDATE_MS        100
+
+// Load control constants
+// Target delay for load controller updates in ms
+#define LOAD_CONTROLLER_PERIOD_MS   10
+// Generates warnings if happens less than this...
+#define LOAD_CONTROLLER_WARNING_MS  20
+#define LOAD_CONTROLLER_SET_POINT   15.0
+#define LOAD_CONTROLLER_HYSTERESIS  3.0
 
 // General config
 #define PEDAL1_VOLTAGE_PIN          A1
@@ -53,11 +63,6 @@ const uint8_t  PLAYER_LED_PINS[]    = {  14,  15,  16,  17 };
 #define GAME_LEVEL_MAX              20
 #define GAME_LENGTH_SECONDS         30
 
-// Load control constants
-#define LOAD_CONTROLLER_PERIOD_MS   10
-#define LOAD_CONTROLLER_SET_POINT   15.0
-#define LOAD_CONTROLLER_HYSTERESIS  3.0
-#define PWM_LOAD_PIN1               6
 
 // Other mode settings
 #define COUNTDOWN_SECONDS           3

@@ -29,10 +29,19 @@ void LoadedPlayer::update()
 #ifdef DEBUG
     Serial.println(F("LoadedPlayer::update"));
 #endif
-    if (millis() < _last + LOAD_CONTROLLER_PERIOD_MS) {
+    loadControllerUpdate();
+}
+
+void LoadedPlayer::loadControllerUpdate()
+{
+    unsigned long msSinceUpdate = millis() - _last;
+    if (msSinceUpdate < LOAD_CONTROLLER_PERIOD_MS) {
         return;
+    } else if (msSinceUpdate > LOAD_CONTROLLER_WARNING_MS) {
+        Serial.print(F("WARN: slow load ctl: "));
+        Serial.println(msSinceUpdate);
     }
-    _last = millis();
+    _last += msSinceUpdate;
     if (this->getVoltage() >= LOAD_CONTROLLER_SET_POINT - LOAD_CONTROLLER_HYSTERESIS) {
         float error;
         float proportional;
@@ -65,10 +74,12 @@ void LoadedPlayer::update()
 
 #ifdef DEBUGLOAD
 #ifndef NO_LOAD_CONTROL
-    Serial.print(F("PWM="));
+    Serial.print(F("PWM, pin="));
 #else
-    Serial.print(F("PWM (dis)="));
+    Serial.print(F("PWM (dis), pin="));
 #endif
+    Serial.print(_pwmPin);
+    Serial.print(F(" pwm="));
     Serial.println(_pwmLoad);
 #endif
 }

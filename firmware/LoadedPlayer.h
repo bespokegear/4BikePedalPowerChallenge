@@ -10,6 +10,7 @@ public:
                  uint8_t pwmPin);
     void begin();
     void update();
+    void loadControllerUpdate();
     uint8_t getPwm() { return (uint8_t)_pwmLoad; }
 
 private:

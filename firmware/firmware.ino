@@ -16,13 +16,13 @@ void loop()
 {
     for (uint8_t i=0; i<PLAYER_COUNT; i++) {
         Players[i].update();
-        Serial.print(F("player "));
-        Serial.print(i);
-        Serial.print(F(" vin="));
+        Serial.print(i+1);
+        Serial.print(F("UP vin="));
         Serial.print(Players[i].getVoltage());
         Serial.print(F(", pwm="));
-        Serial.println(Players[i].getPwm());
+        Serial.print(Players[i].getPwm());
+        Serial.print(F(";  "));
     }
-    delay(100);
+    Serial.println(F(""));
 }
 
