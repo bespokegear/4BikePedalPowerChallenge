@@ -4,8 +4,7 @@
 #include "Config.h"
 
 Player p1(PEDAL1_VOLTAGE_PIN, PEDAL1_VOLTAGE_R1, PEDAL1_VOLTAGE_R2,
-          LED1_DATA_PIN, LED1_COUNT, LED1_TYPE,
-          PWM_LOAD_PIN1);
+          LED1_DATA_PIN, LED1_COUNT, LED1_TYPE);
 LoadController load(p1, PWM_LOAD_PIN1);
 
 void setup()

@@ -51,9 +51,9 @@
 #define GAME_LENGTH_SECONDS         30
 
 // Load control constants
-#define LOAD_CONTROL_PERIOD_MS      10
-#define VPWMSETPOINT                13.0
-#define VPWMHYSTERESIS              1.0
+#define LOAD_CONTROLLER_PERIOD_MS   10
+#define LOAD_CONTROLLER_SET_POINT   15.0
+#define LOAD_CONTROLLER_HYSTERESIS  3.0
 #define PWM_LOAD_PIN1               6
 
 // Other mode settings
