@@ -7,9 +7,9 @@ class VoltageSampler {
 public:
     VoltageSampler(const uint8_t pin, uint16_t r1KOhm, uint16_t r2KOhm);
     ~VoltageSampler() {;}
-
+    void begin();
     void update();
-    float get();
+    float getVoltage();
     uint8_t getPin() { return _pin; }
 
 private:

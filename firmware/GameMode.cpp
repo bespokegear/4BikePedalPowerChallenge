@@ -54,7 +54,7 @@ void _GameMode::modeUpdate()
 {
     float elapsed = (millis() - _lastUpdate) / 1000.;
     _lastUpdate = millis();
-    float vIn1 = PEDAL1_FUDGE_FACTOR + Pedal1Vin.get();
+    float vIn1 = PEDAL1_FUDGE_FACTOR + Pedal1Vin.getVoltage();
     float power1 = vIn1 > PEDAL1_THRESHOLD ? vIn1*vIn1/PEDAL1_DUMP_R : 0; // P = (V^2)/R
     _energy1 += (power1 * elapsed);
 #ifdef DEBUG

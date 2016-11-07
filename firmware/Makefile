@@ -6,8 +6,8 @@ CPPFLAGS += -DDEBUG
 #CPPFLAGS += -DDEBUGTIME
 #CPPFLAGS += -DDEBUGMEM
 #CPPFLAGS += -DNOEEPROM
-ARDUINO_LIBS = EEPROM Adafruit_NeoPixel
-BOARD_TAG = mega
+#ARDUINO_LIBS = EEPROM Adafruit_NeoPixel
+BOARD_TAG = mega2560
 
 include ../arduino_inc.mk
 

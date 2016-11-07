@@ -50,6 +50,12 @@
 #define GAME_LEVEL_MAX              20
 #define GAME_LENGTH_SECONDS         30
 
+// Load control constants
+#define LOAD_CONTROL_PERIOD_MS      10
+#define VPWMSETPOINT                13.0
+#define VPWMHYSTERESIS              1.0
+#define PWM_LOAD_PIN1               6
+
 // Other mode settings
 #define COUNTDOWN_SECONDS           3
 
