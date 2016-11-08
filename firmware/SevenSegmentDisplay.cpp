@@ -17,15 +17,12 @@
 #define SEG_DEC_P               0B00000001
 #elif SEG_TYPE == SEG_TYPE_MATT_VENN
 #define SEG_TOP_H               0B00000001
-#define SEG_CEN_H               0B01000000
-#define SEG_BOT_H               0B00001000
-
-#define SEG_TOP_L               0B00100000
 #define SEG_TOP_R               0B00000010
-
+#define SEG_TOP_L               0B00100000
 #define SEG_BOT_L               0B00010000
+#define SEG_BOT_H               0B00001000
 #define SEG_BOT_R               0B00000100
-
+#define SEG_CEN_H               0B01000000
 #define SEG_DEC_P               0B10000000
 #else
 #error Must set SEG_TYPE to a valid value
@@ -77,6 +74,7 @@ void SevenSegmentDisplay::clear()
 void SevenSegmentDisplay::display(char str[3])
 {
     display((uint8_t)str[0], (uint8_t)str[1], (uint8_t)str[2]);
+
 }
 
 void SevenSegmentDisplay::display(int16_t i, bool zeroPad)
@@ -95,31 +93,41 @@ void SevenSegmentDisplay::display(int16_t i, bool zeroPad)
 
 void SevenSegmentDisplay::display(uint8_t c1, uint8_t c2, uint8_t c3, uint8_t decimalPosition)
 {
+#if SEG_TYPE == SEG_TYPE_REINNOVATION
+    uint8_t d1 = c1;
+    uint8_t d2 = c2;
+    uint8_t d3 = c3;
+#elif SEG_TYPE == SEG_TYPE_MATT_VENN
+    uint8_t d1 = c3;
+    uint8_t d2 = c2;
+    uint8_t d3 = c1;
+#endif
+
 #ifdef DEBUG7SEG
     Serial.print(F("SevenSegmentDisplay::display, digits: "));
-    Serial.print(c1);
+    Serial.print(d1);
     Serial.print(' ');
-    Serial.print(c2);
+    Serial.print(d2);
     Serial.print(' ');
-    Serial.println(c3);
+    Serial.println(d3);
 #endif
     // Set latch low so the LED1 don't change while sending in bits
     digitalWrite(_SLatchPin, LOW);
-    c1 = int7segment(c1);
-    c2 = int7segment(c2);
-    c3 = int7segment(c3);
+    d1 = int7segment(d1);
+    d2 = int7segment(d2);
+    d3 = int7segment(d3);
     if (decimalPosition == 1) {
-        c1 |= int7segment('.');
+        d1 |= int7segment('.');
     } else if (decimalPosition == 2) {
-        c2 |= int7segment('.');
+        d2 |= int7segment('.');
     } else if (decimalPosition == 3) {
-        c3 |= int7segment('.');
+        d3 |= int7segment('.');
     }
     // shift out the bits:
     // Send data via 3 shift registers:
-    shiftOut(_SDataPin, _SClkPin, MSBFIRST, c1);  // Puts out data onto all three digits
-    shiftOut(_SDataPin, _SClkPin, MSBFIRST, c2);
-    shiftOut(_SDataPin, _SClkPin, MSBFIRST, c3);
+    shiftOut(_SDataPin, _SClkPin, MSBFIRST, d1);  // Puts out data onto all three digits
+    shiftOut(_SDataPin, _SClkPin, MSBFIRST, d2);
+    shiftOut(_SDataPin, _SClkPin, MSBFIRST, d3);
     // set latch high to display new values
     digitalWrite(_SLatchPin, HIGH);
 }
@@ -149,15 +157,17 @@ uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
         break;
     case 4:
     case '4':
-        displayData = SEG_TOP_R | SEG_BOT_R | SEG_BOT_L | SEG_CEN_H;
+        displayData = SEG_CEN_H | SEG_TOP_L | SEG_TOP_R | SEG_BOT_R ;
         break;
     case 5:
     case '5':
-        displayData = SEG_TOP_H | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_CEN_H;
+    case 's':
+    case 'S':
+        displayData = SEG_TOP_H | SEG_CEN_H | SEG_BOT_H | SEG_TOP_L | SEG_BOT_R;
         break;
     case 6:
     case '6':
-        displayData = SEG_TOP_H | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
+        displayData = SEG_TOP_H | SEG_CEN_H | SEG_BOT_H | SEG_TOP_L | SEG_BOT_L | SEG_BOT_R;
         break;
     case 7:
     case '7':
@@ -165,11 +175,11 @@ uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
         break;
     case 8:
     case '8':
-        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
+        displayData = SEG_TOP_H | SEG_CEN_H | SEG_BOT_H | SEG_TOP_L | SEG_TOP_R | SEG_BOT_L | SEG_BOT_R;
         break;
     case 9:
     case '9':
-        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_CEN_H;
+        displayData = SEG_TOP_H | SEG_CEN_H | SEG_TOP_L | SEG_TOP_R | SEG_BOT_R;
         break;
     case 10:
     case '.':
@@ -190,15 +200,15 @@ uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
         break;
     case 'A':
     case 'a':
-        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_TOP_L | SEG_BOT_R | SEG_BOT_L | SEG_CEN_H;
         break;
     case 'B':
     case 'b':
-        displayData = SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
+        displayData = SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_TOP_L | SEG_CEN_H;
         break;
     case 'C':
     case 'c':
-        displayData = SEG_TOP_H | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L;
+        displayData = SEG_TOP_H | SEG_BOT_H | SEG_BOT_L | SEG_TOP_L;
         break;
     case 'D':
     case 'd':
@@ -206,14 +216,14 @@ uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
         break;
     case 'E':
     case 'e':
-        displayData = SEG_TOP_H | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
+        displayData = SEG_TOP_H | SEG_BOT_H | SEG_BOT_L | SEG_TOP_L | SEG_CEN_H;
         break;
     case 'F':
     case 'f':
-        displayData = SEG_TOP_H | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
+        displayData = SEG_TOP_H | SEG_BOT_L | SEG_TOP_L | SEG_CEN_H;
         break;
     case 'G':
-        displayData = SEG_TOP_H | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L;
+        displayData = SEG_TOP_H | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_TOP_L;
         break;
     case 'g':
         displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_CEN_H;
@@ -223,16 +233,16 @@ uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
         break;
     case 'P':
     case 'p':
-        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_L | SEG_TOP_L | SEG_CEN_H;
         break;
     case 'H':
-        displayData = SEG_TOP_R | SEG_BOT_R | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
+        displayData = SEG_TOP_R | SEG_BOT_R | SEG_BOT_L | SEG_TOP_L | SEG_CEN_H;
         break;
     case 'h':
-        displayData = SEG_BOT_R | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
+        displayData = SEG_BOT_R | SEG_BOT_L | SEG_TOP_L | SEG_CEN_H;
         break;
     case 'L':
-        displayData = SEG_BOT_H | SEG_BOT_L | SEG_BOT_L;
+        displayData = SEG_BOT_H | SEG_TOP_L | SEG_BOT_L;
         break;
     case '#':
         // Used to test all elements
