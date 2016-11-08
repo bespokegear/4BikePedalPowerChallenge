@@ -27,9 +27,9 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 #define LOAD_CONTROLLER_PERIOD_MS   10
 // Generates warnings if happens less than this...
 #define LOAD_CONTROLLER_WARNING_MS  20
-#define LOAD_CONTROLLER_SET_POINT   15.0
-#define LOAD_CONTROLLER_HYSTERESIS  3.0
-#define LOAD_DUMP_R_OHM             4.0
+#define LOAD_CONTROLLER_SET_POINT   12.0
+#define LOAD_CONTROLLER_HYSTERESIS  1.0
+#define LOAD_DUMP_R_OHM             3.0
 
 // General config
 // VIN_REF is passed to analogReference in setup(). See arduino docs for valid values
@@ -41,8 +41,8 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 #define RESET_BUTTON_PIN            20
 #define MODE_BUTTON_PIN             21
 #define HEARTBEAT_LED_PIN           13
-#define VOLTAGE_SAMPLES             10
-#define CURRENT_SAMPLES             10
+#define VOLTAGE_SAMPLES             50
+#define CURRENT_SAMPLES             50
 #define SLATCH_PIN                  22
 #define SCLK_PIN                    27
 #define SDATA_PIN                   24
