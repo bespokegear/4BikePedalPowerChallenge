@@ -19,7 +19,7 @@ Player::~Player()
 // Call from setup(), initializes pins and so on
 void Player::begin()
 {   
-#ifdef DEBUG
+#ifdef DEBUGFUNC
     Serial.println(F("Player::begin"));
 #endif
     VoltageSampler::begin();
@@ -31,7 +31,7 @@ void Player::begin()
 
 void Player::update()
 {
-#ifdef DEBUG
+#ifdef DEBUGFUNC
     Serial.println(F("Player::update"));
 #endif
     VoltageSampler::update();
@@ -40,9 +40,25 @@ void Player::update()
 
 float Player::getVoltage()
 {
-#ifdef DEBUG
+#ifdef DEBUGFUNC
     Serial.println(F("Player::getVoltage"));
 #endif
     return VoltageSampler::getVoltage() + PLAYER_VIN_FUDGE_FACTOR;
+}
+
+void Player::displayLED(float n)
+{
+#ifdef DEBUGFUNC
+    Serial.println(F("Player::displayLED"));
+#endif
+    uint16_t i;
+    bool lit;
+    for (i=0; i<PLAYER_LED_COUNT; i++) {
+        bool lit = ((n*PLAYER_LED_COUNT)) > i;
+        _LED.setPixelColor(i, lit ? _ledColor : 0x000000UL);
+    }
+    // TODO: round to 2 LEDs at a time
+    _LED.show();
+
 }
 

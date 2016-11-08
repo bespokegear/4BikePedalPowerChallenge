@@ -17,10 +17,10 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 #define PLAYER_VIN_R2               560
 #define PLAYER_VIN_FUDGE_FACTOR     2.1
 #define PLAYER_VIN_THRESHOLD        (PLAYER_VIN_FUDGE_FACTOR + 0.2)
-#define PLAYER_LED_COUNT            180
+#define PLAYER_LED_COUNT            60 
 #define PLAYER_LED_TYPE             (NEO_GRB + NEO_KHZ800)
 #define PLAYER_LED_BRIGHTNESS       255
-#define PLAYER_LED_UPDATE_MS        100
+#define PLAYER_LED_UPDATE_MS        250
 
 // Load control constants
 // Target delay for load controller updates in ms
@@ -47,7 +47,7 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 #define SCLK_PIN                    27
 #define SDATA_PIN                   24
 #define SENABLE_PIN                 25
-#define ARDUINO_VOLTAGE_PIN         A6
+#define ARDUINO_VOLTAGE_PIN         A8
 #define ARDUINO_VOLTAGE_R1          10
 #define ARDUINO_VOLTAGE_R2          100
 #define BROWNOUT_HIGH               1300

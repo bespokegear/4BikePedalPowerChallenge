@@ -17,14 +17,14 @@ CurrentSampler::CurrentSampler(const uint8_t pin, float vSupply) :
 
 void CurrentSampler::begin()
 {
-#ifdef DEBUG
+#ifdef DEBUGFUNC
     Serial.println(F("CurrentSampler::begin"));
 #endif
     // no need to set pinMode for analog inputs
 }
 
 void CurrentSampler::update() {
-#ifdef DEBUG
+#ifdef DEBUGFUNC
     Serial.println(F("CurrentSampler::update"));
 #endif
     _samples[_idx] = currentConversion(_pin, _vSupply);

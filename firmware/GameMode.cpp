@@ -1,8 +1,9 @@
+#include <Arduino.h>
+#include <EEPROM.h>
 #include "GameMode.h"
 #include "Util.h"
 #include "ClockDisplay.h"
-#include <Arduino.h>
-#include <EEPROM.h>
+#include "Players.h"
 
 _GameMode GameMode;
 
@@ -17,9 +18,8 @@ _GameMode::_GameMode()
 
 void _GameMode::begin()
 {
-#ifdef DEBUG
-    Serial.print(F("GameMode::_begin() vinPin1="));
-    //Serial.println(Pedal1Vin.getPin());
+#ifdef DEBUGFUNC
+    Serial.print(F("GameMode::_begin"));
 #endif
     start();
 }
@@ -52,23 +52,26 @@ void _GameMode::modeUpdate()
 {
     float elapsed = (millis() - _lastUpdate) / 1000.;
     _lastUpdate = millis();
-    //float vIn1 = PLAYER_VIN_FUDGE_FACTOR + Pedal1Vin.getVoltage();
-    float vIn1 = 0;
-    float power1 = vIn1 > PLAYER_VIN_THRESHOLD ? vIn1*vIn1/LOAD_DUMP_R_OHM : 0; // P = (V^2)/R
-    _energy1 += (power1 * elapsed);
+    for (uint8_t i=0; i<PLAYER_COUNT; i++) {
 #ifdef DEBUG
-    Serial.print(F("Game elapsed="));
-    Serial.print(elapsed);
-    Serial.print(F(" pow1="));
-    Serial.print(power1);
-    Serial.print(F(" e1="));
-    Serial.println(_energy1);
+        Serial.print(i+1);
+        Serial.print(F("UP V="));
+        Serial.print(Players[i].getVoltage(), 1);
+        Serial.print(F(" I="));
+        Serial.print(Players[i].getCurrent(), 1);
+        Serial.print(F(" P="));
+        Serial.print(Players[i].getPower(), 1);
+        Serial.print(F("; "));
+#endif
+    }
+#ifdef DEBUG
+    Serial.println(F(""));
 #endif
     writeClock();
     // Throttle writing of neopixels as too-frequent writes
     // throws off millis
     if (_lastUpdate - _lastLEDUpdate > PLAYER_LED_UPDATE_MS) {
-        writePixels();
+        //writePixels();
         _lastLEDUpdate = _lastUpdate;
     }
 }
@@ -103,7 +106,7 @@ void _GameMode::restoreFromEEPROM()
 
 void _GameMode::writePixels()
 {
-#ifdef DEBUG
+#ifdef DEBUGFUNC
     Serial.println(F("GameMode::writePixels"));
 #endif
     uint16_t i;

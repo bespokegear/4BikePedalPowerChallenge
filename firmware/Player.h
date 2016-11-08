@@ -21,6 +21,12 @@ public:
     // VoltageSampler::getVoltage + diode compensation
     virtual float getVoltage();
 
+    // Get power in Watts
+    virtual float getPower() { return getVoltage() * getCurrent(); }
+
+    // Update LED graph with value (n=0 is none, n=1 is all)
+    virtual void displayLED(float n);
+
 private:
     Adafruit_NeoPixel _LED;
     uint32_t _ledColor;

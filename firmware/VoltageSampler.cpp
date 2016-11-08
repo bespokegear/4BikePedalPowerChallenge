@@ -18,14 +18,14 @@ VoltageSampler::VoltageSampler(const uint8_t pin, uint16_t r1KOhm, uint16_t r2KO
 
 void VoltageSampler::begin()
 {
-#ifdef DEBUG
+#ifdef DEBUGFUNC
     Serial.println(F("VoltageSampler::begin"));
 #endif
     // no need to set pinMode for analog inputs
 }
 
 void VoltageSampler::update() {
-#ifdef DEBUG
+#ifdef DEBUGFUNC
     Serial.println(F("VoltageSampler::update"));
 #endif
     _samples[_idx] = voltageConversion(_pin, _r1KOhm, _r2KOhm);
@@ -35,7 +35,7 @@ void VoltageSampler::update() {
 }
 
 float VoltageSampler::getVoltage() {
-#ifdef DEBUG
+#ifdef DEBUGFUNC
     Serial.println(F("VoltageSampler::getVoltage"));
 #endif
     if (!_updated) {

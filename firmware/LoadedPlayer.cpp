@@ -16,7 +16,7 @@ LoadedPlayer::LoadedPlayer(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm,
 
 void LoadedPlayer::begin()
 {
-#ifdef DEBUG
+#ifdef DEBUGFUNC
     Serial.println(F("LoadedPlayer::begin"));
 #endif
     Player::begin();
@@ -27,7 +27,7 @@ void LoadedPlayer::begin()
 void LoadedPlayer::update()
 {
     Player::update();
-#ifdef DEBUG
+#ifdef DEBUGFUNC
     Serial.println(F("LoadedPlayer::update"));
 #endif
     loadControllerUpdate();
