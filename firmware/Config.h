@@ -6,8 +6,8 @@
 // If the number of players is changes, edit Players.cpp so the
 // Players global variable has the correct number of entries...
 #define PLAYER_COUNT                4
-const uint8_t  PLAYER_VIN_PINS[]    = {         A0,         A2,         A4,         A6 };
-const uint8_t  PLAYER_IIN_PINS[]    = {         A1,         A3,         A5,         A7 };
+const uint8_t  PLAYER_VIN_PINS[]    = {         A6,         A4,         A2,         A0 };
+const uint8_t  PLAYER_IIN_PINS[]    = {         A7,         A5,         A3,         A1 };
 const uint8_t  PLAYER_PWM_PINS[]    = {          6,          7,          8,          9 };
 const uint8_t  PLAYER_LED_PINS[]    = {         14,         15,         16,         17 };
 const float    PLAYER_VSUP[]        = {        5.0,        5.0,        5.0,        5.0 };
