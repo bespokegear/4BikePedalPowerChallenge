@@ -1,10 +1,41 @@
 #include "SevenSegmentDisplay.h"
 #include <Arduino.h>
 
-SevenSegmentDisplay::SevenSegmentDisplay(uint8_t SLatchPin, uint8_t SClkPin, uint8_t SDataPin) :
+#define SEG_TYPE_REINNOVATION   1
+#define SEG_TYPE_MATT_VENN      2
+
+#define SEG_TYPE                SEG_TYPE_MATT_VENN
+
+#if SEG_TYPE == SEG_TYPE_REINNOVATION
+#define SEG_TOP_H               0B10000000
+#define SEG_TOP_R               0B01000000
+#define SEG_BOT_R               0B00100000
+#define SEG_BOT_H               0B00010000
+#define SEG_BOT_L               0B00001000
+#define SEG_TOP_L               0B00000100
+#define SEG_CEN_H               0B00000010
+#define SEG_DEC_P               0B00000001
+#elif SEG_TYPE == SEG_TYPE_MATT_VENN
+#define SEG_TOP_H               0B00000001
+#define SEG_CEN_H               0B01000000
+#define SEG_BOT_H               0B00001000
+
+#define SEG_TOP_L               0B00100000
+#define SEG_TOP_R               0B00000010
+
+#define SEG_BOT_L               0B00010000
+#define SEG_BOT_R               0B00000100
+
+#define SEG_DEC_P               0B10000000
+#else
+#error Must set SEG_TYPE to a valid value
+#endif
+
+SevenSegmentDisplay::SevenSegmentDisplay(uint8_t SLatchPin, uint8_t SClkPin, uint8_t SDataPin, uint8_t SEnablePin) :
     _SLatchPin(SLatchPin),
     _SClkPin(SClkPin),
-    _SDataPin(SDataPin)
+    _SDataPin(SDataPin),
+    _SEnablePin(SEnablePin)
 {
 #ifdef DEBUG7SEG
     Serial.print(F("SevenSegmentDisplay::SevenSegmentDisplay lat="));
@@ -13,6 +44,8 @@ SevenSegmentDisplay::SevenSegmentDisplay(uint8_t SLatchPin, uint8_t SClkPin, uin
     Serial.print(SClkPin);
     Serial.print(F(" dat="));
     Serial.println(SDataPin);
+    Serial.print(F(" ebl="));
+    Serial.println(SEnablePin);
 #endif
 }
 
@@ -26,9 +59,11 @@ void SevenSegmentDisplay::begin()
 #ifdef DEBUG7SEG
     Serial.println(F("SevenSegmentDisplay::begin"));
 #endif
-    pinMode(_SLatchPin, OUTPUT);
-    pinMode(_SClkPin,   OUTPUT);
-    pinMode(_SDataPin,  OUTPUT);
+    pinMode(_SLatchPin,  OUTPUT);
+    pinMode(_SClkPin,    OUTPUT);
+    pinMode(_SDataPin,   OUTPUT);
+    pinMode(_SEnablePin, OUTPUT);
+    digitalWrite(_SEnablePin, LOW);
 }
 
 void SevenSegmentDisplay::clear()
@@ -48,12 +83,12 @@ void SevenSegmentDisplay::display(int16_t i, bool zeroPad)
 {
     if (i<0) {
         i *= -1;
-        display('-', 
-                (!zeroPad && i<10) ? ' ' : (i/10)%10, 
+        display('-',
+                (!zeroPad && i<10) ? ' ' : (i/10)%10,
                 i%10);
     } else {
-        display((!zeroPad && i<100) ? ' ' : (i/100)%10, 
-                (!zeroPad && i<10) ? ' '  : (i/10)%10, 
+        display((!zeroPad && i<100) ? ' ' : (i/100)%10,
+                (!zeroPad && i<10) ? ' '  : (i/10)%10,
                 i%10);
     }
 }
@@ -81,28 +116,16 @@ void SevenSegmentDisplay::display(uint8_t c1, uint8_t c2, uint8_t c3, uint8_t de
         c3 |= int7segment('.');
     }
     // shift out the bits:
-    // Send data via 3 shift registers:  
-    shiftOut(_SDataPin, _SClkPin, MSBFIRST, c1);  // Puts out data onto all three digits 
-    shiftOut(_SDataPin, _SClkPin, MSBFIRST, c2); 
-    shiftOut(_SDataPin, _SClkPin, MSBFIRST, c3); 
+    // Send data via 3 shift registers:
+    shiftOut(_SDataPin, _SClkPin, MSBFIRST, c1);  // Puts out data onto all three digits
+    shiftOut(_SDataPin, _SClkPin, MSBFIRST, c2);
+    shiftOut(_SDataPin, _SClkPin, MSBFIRST, c3);
     // set latch high to display new values
     digitalWrite(_SLatchPin, HIGH);
 }
 
 uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
 {
-    // Converts digits and some alpha values to binary which turns
-    // on the various elements of the seven segment display:
-    //
-    // 0B00000001 . decimal
-    // 0B00000010 . centre horizontal
-    // 0B00000100 . top left vertical
-    // 0B00001000 . bottom left vertical
-    // 0B00010000 . bottom horizontal
-    // 0B00100000 . bottom right vertical
-    // 0B01000000 . top right vertical
-    // 0B10000000 . top horizontal
-
     uint8_t displayData;
 
     switch (segmentData)
@@ -110,121 +133,116 @@ uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
     case 0:
     case '0':
     case 'O':
-        displayData = 0B11111100;
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L;
         break;
     case 1:
     case '1':
-        displayData = 0B01100000;
+        displayData = SEG_TOP_R | SEG_BOT_R;
         break;
     case 2:
     case '2':
-        displayData = 0B11011010;
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_H | SEG_BOT_L | SEG_CEN_H;
         break;
     case 3:
     case '3':
-        displayData = 0B11110010;
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_H | SEG_CEN_H;
         break;
     case 4:
     case '4':
-        displayData = 0B01100110;
+        displayData = SEG_TOP_R | SEG_BOT_R | SEG_BOT_L | SEG_CEN_H;
         break;
     case 5:
     case '5':
-        displayData = 0B10110110;
+        displayData = SEG_TOP_H | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_CEN_H;
         break;
     case 6:
     case '6':
-        displayData = 0B10111110;
+        displayData = SEG_TOP_H | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
         break;
     case 7:
     case '7':
-        displayData = 0B11100000;
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R;
         break;
     case 8:
     case '8':
-        displayData = 0B11111110;
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
         break;
     case 9:
     case '9':
-        displayData = 0B11110110;
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_CEN_H;
         break;
     case 10:
-    case '.': 
+    case '.':
         // Decimal point ON
-        displayData = 0B00000001; 
+        displayData = SEG_DEC_P;
         break;
     case '_':
-        displayData = 0B00010000;  
+        displayData = SEG_BOT_H;
         break;
     case '-':
-        displayData = 0B00000010;  
+        displayData = SEG_CEN_H;
         break;
     case '=':
-        displayData = 0B00010010;  
+        displayData = SEG_BOT_H | SEG_CEN_H;
         break;
     case 'o':
-        displayData = 0B00111010;  
+        displayData = SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_CEN_H;
         break;
     case 'A':
     case 'a':
-        displayData = 0B11101110;  
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
         break;
     case 'B':
     case 'b':
-        displayData = 0B00111110;  
+        displayData = SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
         break;
     case 'C':
     case 'c':
-        displayData = 0B10011100;  
+        displayData = SEG_TOP_H | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L;
         break;
     case 'D':
     case 'd':
-        displayData = 0B01111010;  
+        displayData = SEG_TOP_R | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_CEN_H;
         break;
     case 'E':
     case 'e':
-        displayData = 0B10011110;  
+        displayData = SEG_TOP_H | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
         break;
     case 'F':
     case 'f':
-        displayData = 0B10001110;  
+        displayData = SEG_TOP_H | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
         break;
     case 'G':
-        displayData = 0B10111100;  
+        displayData = SEG_TOP_H | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L;
         break;
     case 'g':
-        displayData = 0B11110110;  
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_CEN_H;
         break;
     case '!':
-        displayData = 0B01000001;  
+        displayData = SEG_TOP_R | SEG_DEC_P;
         break;
     case 'P':
     case 'p':
-        displayData = 0B11001110;  
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
         break;
     case 'H':
-        displayData = 0B01101110;  
+        displayData = SEG_TOP_R | SEG_BOT_R | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
         break;
     case 'h':
-        displayData = 0B00101110;  
+        displayData = SEG_BOT_R | SEG_BOT_L | SEG_BOT_L | SEG_CEN_H;
         break;
     case 'L':
-        displayData = 0B00011100;  
+        displayData = SEG_BOT_H | SEG_BOT_L | SEG_BOT_L;
+        break;
+    case '#':
+        // Used to test all elements
+        displayData = SEG_TOP_H | SEG_CEN_H | SEG_BOT_H | SEG_TOP_L | SEG_TOP_R | SEG_BOT_L | SEG_BOT_R | SEG_DEC_P;
         break;
     default:
         displayData = 0B00000000;
         break;
     }
     return displayData;
-
-    // 0B10000000 . top horizontal
-    // 0B01000000 . top right vertical
-    // 0B00100000 . bottom right vertical
-    // 0B00010000 . bottom horizontal
-    // 0B00001000 . bottom left vertical
-    // 0B00000100 . top left vertical
-    // 0B00000010 . centre horizontal
-    // 0B00000001 . decimal
 }
 
 

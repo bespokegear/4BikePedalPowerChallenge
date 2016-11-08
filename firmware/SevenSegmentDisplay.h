@@ -4,7 +4,7 @@
 
 class SevenSegmentDisplay {
 public:
-    SevenSegmentDisplay(uint8_t SLatchPin, uint8_t SClkPin, uint8_t SDataPin);
+    SevenSegmentDisplay(uint8_t SLatchPin, uint8_t SClkPin, uint8_t SDataPin, uint8_t SEnablePin);
     ~SevenSegmentDisplay();
 
     // call this from setup() to init pins
@@ -27,6 +27,7 @@ private:
     uint8_t _SLatchPin;
     uint8_t _SClkPin;
     uint8_t _SDataPin;
+    uint8_t _SEnablePin;
 
     // Convert a digit into binary data to send to device
     uint8_t int7segment (uint8_t segmentData);
