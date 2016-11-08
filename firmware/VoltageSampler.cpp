@@ -35,6 +35,9 @@ void VoltageSampler::update() {
 }
 
 float VoltageSampler::getVoltage() {
+#ifdef DEBUG
+    Serial.println(F("VoltageSampler::getVoltage"));
+#endif
     if (!_updated) {
         return _lastAvg;
     }

@@ -1,10 +1,10 @@
 #include "Util.h"
+#include "Config.h"
 #include <Arduino.h>
 
 float voltageConversion(const uint8_t pin, const uint16_t r1KOhm, const uint16_t r2KOhm)
 {
-    float raw = analogRead(pin);
-    return (raw*3.3*(r1KOhm+r2KOhm)) / (1024*r1KOhm);
+    return (analogRead(pin)*VIN_REF_VOLTS*(r1KOhm+r2KOhm)) / (1024*r1KOhm);
 }
 
 float calculateLinearity(const float percent, const float linearity)
@@ -16,7 +16,7 @@ float calculateLinearity(const float percent, const float linearity)
 float currentConversion(const uint8_t pin, const float vSupply)
 {
     // return (analogRead(pin)-(vSupply/2.0)) / (0.04*vSupply/5.0);
-    float r = ((5.0*analogRead(pin)/1024.0)-(vSupply/2.0)) / (0.04*vSupply/5.0);
+    float r = (((VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET)*analogRead(pin)/1024.0)-(vSupply/2.0)) / (0.04*vSupply/(VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET));
     return r;
 }
 

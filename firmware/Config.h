@@ -15,12 +15,12 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 // Player config (applies to all players)
 #define PLAYER_VIN_R1               10
 #define PLAYER_VIN_R2               560
+#define PLAYER_VIN_FUDGE_FACTOR     2.1
+#define PLAYER_VIN_THRESHOLD        (PLAYER_VIN_FUDGE_FACTOR + 0.2)
 #define PLAYER_LED_COUNT            180
 #define PLAYER_LED_TYPE             (NEO_GRB + NEO_KHZ800)
 #define PLAYER_LED_BRIGHTNESS       255
 #define PLAYER_LED_UPDATE_MS        100
-#define PLAYER_VIN_FUDGE_FACTOR     2.1
-#define PLAYER_VIN_THRESHOLD        (PLAYER_VIN_FUDGE_FACTOR + 0.2)
 
 // Load control constants
 // Target delay for load controller updates in ms
@@ -32,20 +32,28 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 #define LOAD_DUMP_R_OHM             4.0
 
 // General config
-#define ARDUINO_VOLTAGE_PIN         A6
-#define ARDUINO_VOLTAGE_R1          10
-#define ARDUINO_VOLTAGE_R2          100
+// VIN_REF is passed to analogReference in setup(). See arduino docs for valid values
+#define VIN_REF                     DEFAULT
+// Voltage reference.  Depends on VIN_REF and hardware
+#define VIN_REF_VOLTS               5.0
+// Current calculation offset to compensate for VIN_REF_VOLTS variation
+#define CURRENT_REF_VOLTS_OFFSET    0.0
 #define RESET_BUTTON_PIN            20
 #define MODE_BUTTON_PIN             21
 #define HEARTBEAT_LED_PIN           13
-#define BROWNOUT_HIGH               1300
-#define BROWNOUT_LOW                300
 #define VOLTAGE_SAMPLES             10
 #define CURRENT_SAMPLES             10
 #define SLATCH_PIN                  22
 #define SCLK_PIN                    27
 #define SDATA_PIN                   24
 #define SENABLE_PIN                 25
+#define ARDUINO_VOLTAGE_PIN         A6
+#define ARDUINO_VOLTAGE_R1          10
+#define ARDUINO_VOLTAGE_R2          100
+#define BROWNOUT_HIGH               1300
+#define BROWNOUT_LOW                300
+
+// EEPROM data addresses
 #define EEPROM_LEVEL_ADDRESS        0
 
 // GameMode parameters

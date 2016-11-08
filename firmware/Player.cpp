@@ -38,3 +38,11 @@ void Player::update()
     CurrentSampler::update();
 }
 
+float Player::getVoltage()
+{
+#ifdef DEBUG
+    Serial.println(F("Player::getVoltage"));
+#endif
+    return VoltageSampler::getVoltage() + PLAYER_VIN_FUDGE_FACTOR;
+}
+

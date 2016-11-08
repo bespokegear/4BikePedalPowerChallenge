@@ -6,6 +6,7 @@ CPPFLAGS += -Wno-unused-variable -Wno-deprecated-declarations -Wno-cpp -Wno-writ
 #CPPFLAGS += -DDEBUGTIME
 #CPPFLAGS += -DDEBUGMEM
 #CPPFLAGS += -DNOEEPROM
+CPPFLAGS += -DNO_LOAD_CONTROL
 ARDUINO_LIBS = EEPROM Adafruit_NeoPixel
 BOARD_TAG = mega2560
 

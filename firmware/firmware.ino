@@ -10,6 +10,7 @@ void setup()
     for (uint8_t i=0; i<PLAYER_COUNT; i++) {
         Players[i].begin();
     }
+    analogReference(VIN_REF);
     ModeButton.begin();
     ResetButton.begin();
     delay(500);

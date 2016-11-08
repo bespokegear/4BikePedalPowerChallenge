@@ -18,6 +18,9 @@ public:
     // Call as frequently as possible
     virtual void update();
 
+    // VoltageSampler::getVoltage + diode compensation
+    virtual float getVoltage();
+
 private:
     Adafruit_NeoPixel _LED;
     uint32_t _ledColor;
