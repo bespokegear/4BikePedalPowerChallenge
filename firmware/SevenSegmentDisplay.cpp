@@ -145,6 +145,8 @@ uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
         break;
     case 1:
     case '1':
+    case 'i':
+    case 'I':
         displayData = SEG_TOP_R | SEG_BOT_R;
         break;
     case 2:
