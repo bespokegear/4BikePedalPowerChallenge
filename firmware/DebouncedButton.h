@@ -8,7 +8,7 @@ public:
     DebouncedButton(uint8_t pin, bool pullup=true);
     virtual void begin();
     virtual void update();
-    bool isPressed(bool reset=true);
+    bool isPressed(bool constant=false, bool reset=true);
     bool valueNow();
     void set(bool on);
 

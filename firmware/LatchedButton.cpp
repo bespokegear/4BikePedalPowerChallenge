@@ -10,14 +10,14 @@ LatchedButton::LatchedButton(uint8_t pin, bool pullup) :
 void LatchedButton::update()
 {
     DebouncedButton::update();
-    if (isPressed(false)) {
+    if (isPressed(false, false)) {
         _pressed = true;
     }
 }
 
 bool LatchedButton::wasPressed()
 {
-    if (_pressed && !isPressed(false)) {
+    if (_pressed && !isPressed(false, false)) {
         _pressed = false;
         return true;
     } else {

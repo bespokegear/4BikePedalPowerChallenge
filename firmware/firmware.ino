@@ -35,10 +35,10 @@ void loop()
         Serial.print(Players[i].getPwm());
         Serial.print(F(";  "));
 
-        if (ModeButton.isPressed()) {
+        if (ModeButton.isPressed(true)) {
             Serial.print(F(" ModeButton=1"));
         }
-        if (ResetButton.isPressed()) {
+        if (ResetButton.isPressed(true)) {
             Serial.print(F(" ResetButton=1"));
         }
     }

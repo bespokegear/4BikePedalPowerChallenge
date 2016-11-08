@@ -32,13 +32,13 @@ void DebouncedButton::update()
     }
 }
 
-bool DebouncedButton::isPressed(bool reset)
+bool DebouncedButton::isPressed(bool constant, bool reset)
 {
-    if (millis() < _lastPress + BUTTON_NOREPEAT_MS) {
+    if (!constant && millis() < _lastPress + BUTTON_NOREPEAT_MS) {
         return false;
     }
     bool v = _count >= BUTTON_DEBOUNCE_COUNT;
-    if (v && reset) {
+    if (v && reset && !constant) {
         _lastPress = millis();   
     }
     return v;
