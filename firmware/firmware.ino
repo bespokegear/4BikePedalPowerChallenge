@@ -1,48 +1,59 @@
 #include <Arduino.h>
-#include "Players.h"
+#include <stdint.h>
 #include "Config.h"
+#include "CurrentSampler.h"
 #include "ModeButton.h"
 #include "ResetButton.h"
+#include "VoltageSampler.h"
+
+#define ON_DURATION_MS 18000
+
+unsigned long lastOn = 0;
+
+uint8_t pwm = 0;
+
+VoltageSampler vin(PLAYER_VIN_PINS[0], PLAYER_VIN_R1, PLAYER_VIN_R2);
+CurrentSampler iin(PLAYER_IIN_PINS[0], PLAYER_VSUP[0]);
 
 void setup()
 {
     Serial.begin(115200);
-    for (uint8_t i=0; i<PLAYER_COUNT; i++) {
-        Players[i].begin();
-    }
     analogReference(VIN_REF);
+
     ModeButton.begin();
     ResetButton.begin();
+
+    pinMode(PLAYER_PWM_PINS[0], OUTPUT);
+    analogWrite(PLAYER_PWM_PINS[0], 0);
+
     delay(500);
     Serial.println(F("E:setup"));
 }
 
 void loop()
 {
-    // Give everything a timeslice
+    vin.update();
+    iin.update();
     ModeButton.update();
     ResetButton.update();
-    for (uint8_t i=0; i<PLAYER_COUNT; i++) {
-        Players[i].update();
+
+    if (ModeButton.wasPressed()) {
+        pwm+=3;
+        lastOn = millis();
+    }
+    if (ResetButton.wasPressed() || millis() > lastOn + ON_DURATION_MS) {
+        pwm = 0;
     }
 
-    for (uint8_t i=0; i<PLAYER_COUNT; i++) {
-        Serial.print(i+1);
-        Serial.print(F("UP vin="));
-        Serial.print(Players[i].getVoltage());
-        Serial.print(F(" cur="));
-        Serial.print(Players[i].getCurrent());
-        Serial.print(F(", pwm="));
-        Serial.print(Players[i].getPwm());
-        Serial.print(F(";  "));
+    analogWrite(PLAYER_PWM_PINS[0], pwm);
 
-        if (ModeButton.isPressed(true)) {
-            Serial.print(F(" ModeButton=1"));
-        }
-        if (ResetButton.isPressed(true)) {
-            Serial.print(F(" ResetButton=1"));
-        }
-    }
-    Serial.println(F(""));
+    Serial.print(F("pwm="));
+    Serial.print(pwm);
+    Serial.print(F(" ("));
+    Serial.print(pwm*100./255., 1);
+    Serial.print(F("%) vin="));
+    Serial.print(vin.getVoltage() + PLAYER_VIN_FUDGE_FACTOR, 1);
+    Serial.print(F(" iin="));
+    Serial.println(iin.getCurrent(), 2);
 }
 

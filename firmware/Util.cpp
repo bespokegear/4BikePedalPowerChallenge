@@ -15,9 +15,8 @@ float calculateLinearity(const float percent, const float linearity)
 
 float currentConversion(const uint8_t pin, const float vSupply)
 {
-    // return (analogRead(pin)-(vSupply/2.0)) / (0.04*vSupply/5.0);
-    float r = (((VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET)*analogRead(pin)/1024.0)-(vSupply/2.0)) / (0.04*vSupply/(VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET));
-    return r;
+    //return (((VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET)*analogRead(pin)/1024.0)-(vSupply/2.0)) / (0.04*vSupply/(VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET));
+    return ((vSupply/2.0)-((VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET)*analogRead(pin)/1024.0)) / (0.04*vSupply/(VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET));
 }
 
 // From the MemoryFree library, https://github.com/maniacbug/MemoryFree

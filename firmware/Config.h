@@ -37,7 +37,7 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 // Voltage reference.  Depends on VIN_REF and hardware
 #define VIN_REF_VOLTS               5.0
 // Current calculation offset to compensate for VIN_REF_VOLTS variation
-#define CURRENT_REF_VOLTS_OFFSET    0.0
+#define CURRENT_REF_VOLTS_OFFSET    0.028
 #define RESET_BUTTON_PIN            20
 #define MODE_BUTTON_PIN             21
 #define HEARTBEAT_LED_PIN           13
