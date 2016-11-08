@@ -141,7 +141,7 @@ uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
     case 0:
     case '0':
     case 'O':
-        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_BOT_L;
+        displayData = SEG_TOP_H | SEG_TOP_R | SEG_BOT_R | SEG_BOT_H | SEG_BOT_L | SEG_TOP_L;
         break;
     case 1:
     case '1':
