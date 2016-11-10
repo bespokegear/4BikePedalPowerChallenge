@@ -12,6 +12,7 @@ const uint8_t  PLAYER_PWM_PINS[]    = {          6,          7,          8,     
 const uint8_t  PLAYER_LED_PINS[]    = {         14,         15,         16,         17 };
 const float    PLAYER_VSUP[]        = {        5.0,        5.0,        5.0,        5.0 };
 const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFFFF22UL };
+const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL };
 // Player config (applies to all players)
 #define PLAYER_VIN_R1               10
 #define PLAYER_VIN_R2               560
@@ -60,7 +61,7 @@ const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF
 // GameMode parameters
 #define GAME_LEVEL_ENERGY_STEP      1000
 #define GAME_LEVEL_MAX              20
-#define GAME_LENGTH_SECONDS         99
+#define GAME_LENGTH_SECONDS         30
 
 // Other mode settings
 #define COUNTDOWN_SECONDS           5
