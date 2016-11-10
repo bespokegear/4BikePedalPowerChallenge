@@ -33,6 +33,9 @@ void _GameMode::start()
     _startMillis = millis();
     _lastUpdate = _startMillis;
     _lastLEDUpdate = _startMillis;
+    for (uint8_t i=0; i<PLAYER_COUNT; i++) {
+        Players[i].reset();
+    }
     writePixels();
 }
 
@@ -52,22 +55,6 @@ void _GameMode::modeUpdate()
 {
     float elapsed = (millis() - _lastUpdate) / 1000.;
     _lastUpdate = millis();
-/*    for (uint8_t i=0; i<PLAYER_COUNT; i++) {
-#ifdef DEBUG
-        Serial.print(i+1);
-        Serial.print(F("UP V="));
-        Serial.print(Players[i].getVoltage(), 1);
-        Serial.print(F(" I="));
-        Serial.print(Players[i].getCurrent(), 1);
-        Serial.print(F(" P="));
-        Serial.print(Players[i].getPower(), 1);
-        Serial.print(F("; "));
-#endif
-    }
-#ifdef DEBUG
-    Serial.println(F(""));
-#endif
-*/
     writeClock();
     // Throttle writing of neopixels as too-frequent writes
     // throws off millis
@@ -112,18 +99,8 @@ void _GameMode::writePixels()
 #endif
     for (uint8_t i=0; i<PLAYER_COUNT; i++) {
         float n = Players[i].getPower()/PLAYER_MAX_POWER;
-        Serial.print(i);
-        Serial.print(F("  UP, p="));
-        Serial.print(Players[i].getPower());
-        Serial.print(F(" v="));
-        Serial.print(Players[i].getVoltage());
-        Serial.print(F(" i="));
-        Serial.print(Players[i].getCurrent());
-        Serial.print(F(" n="));
-        Serial.print(n);
         Players[i].displayLED(n);
     }
-    Serial.println("");
 }
 
 bool _GameMode::isFinished()
@@ -138,13 +115,23 @@ bool _GameMode::isFinished()
 
 void _GameMode::writeClock()
 {
-    long left10ths = ((_startMillis + GAME_LENGTH_SECONDS * 1000) - millis())/100;
-    if (left10ths == _lastClock) { return; }
-    uint8_t c1 = (left10ths / 100) % 10;
-    uint8_t c2 = (left10ths / 10) % 10;
-    uint8_t c3 = left10ths % 10;
-    _lastClock = left10ths;
-    ClockDisplay.display(c1==0 ? ' ' : c1, c2, c3, 2);
+    //long left10ths = ((_startMillis + GAME_LENGTH_SECONDS * 1000) - millis())/100;
+    long tenths = (GAME_LENGTH_SECONDS*10)-((millis()-_startMillis)/100);
+    if (tenths == _lastClock) { return; }
+    uint8_t c1, c2, c3, decPt;
+    if (tenths < 1000) {
+        c1 = (tenths / 100) % 10;
+        c2 = (tenths / 10) % 10;
+        c3 = tenths % 10;
+        decPt = 2;
+    } else {
+        c1 = (tenths / 1000) % 10;
+        c2 = (tenths / 100) % 10;
+        c3 = (tenths / 10) % 10;
+        decPt = 1;
+    }
+    ClockDisplay.display(c1==0 ? ' ' : c1, c2, c3, decPt);
+    _lastClock = tenths;
 }
 
 void _GameMode::setLevel(uint8_t d)
