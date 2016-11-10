@@ -149,10 +149,17 @@ void loop()
     if (ResetButton.isPressed()) {
         if (mode == &WaitMode) {
             switchMode(&CountdownMode);
+        } else if (mode == &CountdownMode) {
+            ClockDisplay.clear();
+            switchMode(&WaitMode);
         } else if (mode == &GameMode) {
             ClockDisplay.clear();
             switchMode(&WaitMode);
         }
+    }
+
+    if (ModeButton.isPressed() && mode == &CountdownMode) {
+        switchMode(&GameMode);
     }
 
     // Give a timeslice to the current mode
