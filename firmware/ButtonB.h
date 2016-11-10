@@ -2,5 +2,5 @@
 
 #include "DualButton.h"
 
-extern DualButton ResetButton;
+extern DualButton ButtonB;
 

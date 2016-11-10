@@ -2,5 +2,5 @@
 
 #include "DualButton.h"
 
-extern DualButton ModeButton;
+extern DualButton ButtonA;
 

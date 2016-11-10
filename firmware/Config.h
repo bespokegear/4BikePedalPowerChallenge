@@ -71,6 +71,6 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 // Button config
 #define BUTTON_DEBOUNCE_COUNT       3
 #define BUTTON_DEBOUNCE_MS          10
-#define BUTTON_NOREPEAT_MS          300
+#define BUTTON_NOREPEAT_MS          500
 
 

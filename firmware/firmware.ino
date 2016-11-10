@@ -22,8 +22,8 @@
 // One #include per system object we will use
 #include "PwmConfig.h"
 #include "Heartbeat.h"
-#include "ResetButton.h"
-#include "ModeButton.h"
+#include "ButtonA.h"
+#include "ButtonB.h"
 #include "WaitMode.h"
 #include "CountdownMode.h"
 #include "GameMode.h"
@@ -62,8 +62,8 @@ void setup()
     Heartbeat.begin();
 
     // Init buttons (set pin modes)
-    ResetButton.begin();
-    ModeButton.begin();
+    ButtonA.begin();
+    ButtonB.begin();
 
     // Init pins for clock display
     ClockDisplay.begin();
@@ -139,27 +139,22 @@ void loop()
 
     // Give a time slice to all system components
     Heartbeat.update();
-    ResetButton.update();
-    ModeButton.update();
+    ButtonA.update();
+    ButtonB.update();
     for (uint8_t i=0; i<PLAYER_COUNT; i++) {
         Players[i].update();
     }
 
     // Detect button presses and behave appropriately
-    if (ResetButton.isPressed()) {
+    if (ButtonB.isPressed()) {
         if (mode == &WaitMode) {
             switchMode(&CountdownMode);
         } else if (mode == &CountdownMode) {
-            ClockDisplay.clear();
-            switchMode(&WaitMode);
+            switchMode(&GameMode);
         } else if (mode == &GameMode) {
             ClockDisplay.clear();
             switchMode(&WaitMode);
         }
-    }
-
-    if (ModeButton.isPressed() && mode == &CountdownMode) {
-        switchMode(&GameMode);
     }
 
     // Give a timeslice to the current mode
