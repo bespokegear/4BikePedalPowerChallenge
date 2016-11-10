@@ -55,9 +55,10 @@ void Player::displayLED(float n)
     uint16_t i;
     uint16_t lastLit = 0;
     bool lit;
-    for (i=0; i<PLAYER_LED_COUNT; i++) {
-        bool lit = ((n*PLAYER_LED_COUNT)) > i;
-        _LED.setPixelColor(i, lit ? _ledColor : 0x000000UL);
+    for (i=0; i<PLAYER_LED_COUNT/2; i++) {
+        bool lit = ((n*(PLAYER_LED_COUNT/2))) > i;
+        _LED.setPixelColor(i*2, lit ? _ledColor : 0x000000UL);
+        _LED.setPixelColor((i*2+1), lit ? _ledColor : 0x000000UL);
         if (lit) lastLit = i;
     }
 
@@ -66,7 +67,8 @@ void Player::displayLED(float n)
     }
 
     if (_max > 0) {
-        _LED.setPixelColor(_max, 0xFFFFFFFFUL);
+        _LED.setPixelColor(_max*2, 0xFFFFFFFFUL);
+        _LED.setPixelColor((_max*2)+1, 0xFFFFFFFFUL);
     }
     
     // TODO: round to 2 LEDs at a time
