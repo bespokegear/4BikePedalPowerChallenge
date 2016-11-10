@@ -109,7 +109,9 @@ void SevenSegmentDisplay::display(uint8_t c1, uint8_t c2, uint8_t c3, uint8_t de
     Serial.print(' ');
     Serial.print(d2);
     Serial.print(' ');
-    Serial.println(d3);
+    Serial.print(d3);
+    Serial.print(F(" dp="));
+    Serial.println(decimalPosition);
 #endif
     // Set latch low so the LED1 don't change while sending in bits
     digitalWrite(_SLatchPin, LOW);
@@ -130,6 +132,15 @@ void SevenSegmentDisplay::display(uint8_t c1, uint8_t c2, uint8_t c3, uint8_t de
     shiftOut(_SDataPin, _SClkPin, MSBFIRST, d3);
     // set latch high to display new values
     digitalWrite(_SLatchPin, HIGH);
+    _lastValues[0] = c1;
+    _lastValues[1] = c2;
+    _lastValues[2] = c3;
+    _lastValues[3] = decimalPosition;
+}
+
+void SevenSegmentDisplay::redisplay()
+{
+    display(_lastValues[0], _lastValues[1], _lastValues[2], _lastValues[3]);
 }
 
 uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
@@ -249,6 +260,9 @@ uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
     case 't':
     case 'T':
         displayData = SEG_CEN_H | SEG_BOT_H | SEG_TOP_L | SEG_BOT_L; 
+        break;
+    case 'r':
+        displayData = SEG_CEN_H | SEG_BOT_L; 
         break;
     case '#':
         // Used to test all elements

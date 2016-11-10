@@ -23,11 +23,16 @@ public:
     // display('-', '5', 5) displays -55
     void display(uint8_t c1, uint8_t c2, uint8_t c3, uint8_t decimalPosition=0);
 
+    // re-display the last thing that was displayed (display could have been 
+    // corrupted due to noise)
+    void redisplay();
+
 private:
     uint8_t _SLatchPin;
     uint8_t _SClkPin;
     uint8_t _SDataPin;
     uint8_t _SEnablePin;
+    uint8_t _lastValues[4];
 
     // Convert a digit into binary data to send to device
     uint8_t int7segment (uint8_t segmentData);
