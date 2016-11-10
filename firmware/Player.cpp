@@ -4,11 +4,13 @@
 
 Player::Player(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm, 
                uint8_t curPin, float vSupply,
-               uint8_t ledPin, uint16_t ledCount, neoPixelType ledType, uint32_t ledColor) :
+               uint8_t ledPin, uint16_t ledCount, neoPixelType ledType, 
+               uint32_t ledColor, uint32_t maxColor) :
     VoltageSampler(vinPin, r1KOhm, r2KOhm),
     CurrentSampler(curPin, vSupply),
     _LED(ledCount, ledPin, ledType),
-    _ledColor(ledColor)
+    _ledColor(ledColor),
+    _maxColor(maxColor)
 {
 }
 
@@ -62,16 +64,15 @@ void Player::displayLED(float n)
         if (lit) lastLit = i;
     }
 
-    if (lastLit > _max) {
+    if (lastLit >= _max) {
         _max = lastLit;
     }
 
-    if (_max > 0) {
-        _LED.setPixelColor(_max*2, 0xFFFFFFFFUL);
-        _LED.setPixelColor((_max*2)+1, 0xFFFFFFFFUL);
+    if (_max>0) {
+        _LED.setPixelColor(_max*2, _maxColor);
+        _LED.setPixelColor((_max*2)+1, _maxColor);
     }
-    
-    // TODO: round to 2 LEDs at a time
+
     _LED.show();
 
 }

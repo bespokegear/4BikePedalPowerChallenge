@@ -9,7 +9,8 @@ class Player : public VoltageSampler, public CurrentSampler {
 public:
     Player(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm, 
            uint8_t curPin, float vSupply,
-           uint8_t ledPin, uint16_t ledCount, neoPixelType ledType, uint32_t ledColor);
+           uint8_t ledPin, uint16_t ledCount, neoPixelType ledType, 
+           uint32_t ledColor, uint32_t maxColor);
     ~Player();
 
     // Call from setup(), initializes pins and so on
@@ -33,6 +34,7 @@ public:
 private:
     Adafruit_NeoPixel _LED;
     uint32_t _ledColor;
+    uint32_t _maxColor;
     uint16_t _max;
 
 };
