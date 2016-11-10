@@ -18,7 +18,7 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define PLAYER_VIN_R2               560
 #define PLAYER_VIN_FUDGE_FACTOR     2.1
 #define PLAYER_VIN_THRESHOLD        (PLAYER_VIN_FUDGE_FACTOR + 0.2)
-#define PLAYER_LED_COUNT            60 
+#define PLAYER_LED_COUNT            180 
 #define PLAYER_LED_TYPE             (NEO_GRB + NEO_KHZ800)
 #define PLAYER_LED_BRIGHTNESS       255
 #define PLAYER_LED_UPDATE_MS        250
@@ -41,7 +41,9 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 // Current calculation offset to compensate for VIN_REF_VOLTS variation
 #define CURRENT_REF_VOLTS_OFFSET    0.028
 #define RESET_BUTTON_PIN            20
+#define REMOTE_RESET_BUTTON_PIN     10
 #define MODE_BUTTON_PIN             21
+#define REMOTE_MODE_BUTTON_PIN      11
 #define HEARTBEAT_LED_PIN           13
 #define VOLTAGE_SAMPLES             10
 #define CURRENT_SAMPLES             50

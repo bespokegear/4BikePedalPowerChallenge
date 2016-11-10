@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LatchedButton.h"
+#include "DualButton.h"
 
-extern LatchedButton ResetButton;
+extern DualButton ResetButton;
 
