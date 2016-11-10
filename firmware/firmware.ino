@@ -30,6 +30,7 @@
 #include "ArduinoVin.h"
 #include "ClockDisplay.h"
 #include "Players.h"
+#include "Util.h"
 
 // General Arduino features
 #include <Arduino.h>
