@@ -27,8 +27,12 @@ public:
     // Update LED graph with value (n=0 is none, n=1 is all)
     virtual void displayLED(float n);
 
+    // reset the recent maximum value
+    void reset();
+
 private:
     Adafruit_NeoPixel _LED;
     uint32_t _ledColor;
+    uint16_t _max;
 
 };

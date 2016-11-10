@@ -11,15 +11,12 @@ public:
                  uint32_t ledColor, uint8_t pwmPin);
     void begin();
     void update();
-    void loadControllerUpdate();
     uint8_t getPwm() { return (uint8_t)_pwmLoad; }
 
 private:
     uint8_t _pwmPin;
-    long _pwmLoad;
-    float _integral;
+    uint8_t _pwmLoad;
     unsigned long _last;
-
 };
 
 

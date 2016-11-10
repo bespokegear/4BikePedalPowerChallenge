@@ -52,7 +52,7 @@ void _GameMode::modeUpdate()
 {
     float elapsed = (millis() - _lastUpdate) / 1000.;
     _lastUpdate = millis();
-    for (uint8_t i=0; i<PLAYER_COUNT; i++) {
+/*    for (uint8_t i=0; i<PLAYER_COUNT; i++) {
 #ifdef DEBUG
         Serial.print(i+1);
         Serial.print(F("UP V="));
@@ -67,11 +67,12 @@ void _GameMode::modeUpdate()
 #ifdef DEBUG
     Serial.println(F(""));
 #endif
+*/
     writeClock();
     // Throttle writing of neopixels as too-frequent writes
     // throws off millis
     if (_lastUpdate - _lastLEDUpdate > PLAYER_LED_UPDATE_MS) {
-        //writePixels();
+        writePixels();
         _lastLEDUpdate = _lastUpdate;
     }
 }
@@ -109,13 +110,20 @@ void _GameMode::writePixels()
 #ifdef DEBUGFUNC
     Serial.println(F("GameMode::writePixels"));
 #endif
-    uint16_t i;
-    bool lit;
-    //for (i=0; i<LED1_COUNT; i++) {
-    //    bool lit = ((_energy1*LED1_COUNT) / goalEnergy()) > i;
-    //    LED1.setPixelColor(i, lit ? P1_ON_COLOR : P1_OFF_COLOR);
-    //}
-    //LED1.show();
+    for (uint8_t i=0; i<PLAYER_COUNT; i++) {
+        float n = Players[i].getPower()/PLAYER_MAX_POWER;
+        Serial.print(i);
+        Serial.print(F("  UP, p="));
+        Serial.print(Players[i].getPower());
+        Serial.print(F(" v="));
+        Serial.print(Players[i].getVoltage());
+        Serial.print(F(" i="));
+        Serial.print(Players[i].getCurrent());
+        Serial.print(F(" n="));
+        Serial.print(n);
+        Players[i].displayLED(n);
+    }
+    Serial.println("");
 }
 
 bool _GameMode::isFinished()
