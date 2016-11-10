@@ -20,6 +20,7 @@
 #include "Config.h"
 
 // One #include per system object we will use
+#include "PwmConfig.h"
 #include "Heartbeat.h"
 #include "ResetButton.h"
 #include "ModeButton.h"
@@ -52,6 +53,9 @@ void setup()
 
     // Use external reference
     analogReference(VIN_REF);
+
+    // Set up PWM clocks
+    PWMConfig();
 
     // Set up the blinker
     Heartbeat.begin();
