@@ -40,10 +40,10 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define VIN_REF_VOLTS               5.0
 // Current calculation offset to compensate for VIN_REF_VOLTS variation
 #define CURRENT_REF_VOLTS_OFFSET    0.028
-#define RESET_BUTTON_PIN            20
-#define REMOTE_RESET_BUTTON_PIN     10
-#define MODE_BUTTON_PIN             21
-#define REMOTE_MODE_BUTTON_PIN      11
+#define WIRED_A_BUTTON_PIN          21
+#define WIRED_B_BUTTON_PIN          20
+#define REMOTE_A_BUTTON_PIN         10
+#define REMOTE_B_BUTTON_PIN         11
 #define HEARTBEAT_LED_PIN           13
 #define VOLTAGE_SAMPLES             10
 #define CURRENT_SAMPLES             50

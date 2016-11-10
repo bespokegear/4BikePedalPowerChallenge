@@ -1,5 +1,5 @@
 #include "WaitMode.h"
-#include "ButtonA.h"
+#include "ButtonB.h"
 #include "ClockDisplay.h"
 #include "GameMode.h"
 #include <Arduino.h>
@@ -20,7 +20,7 @@ void _WaitMode::start()
     Serial.println(F("WaitMode::start()"));
 #endif
     // In case the mode button was pressed while in another mode, clear it.
-    ButtonA.wasPressed();
+    ButtonB.wasPressed();
     _modeSelect = false;
 }
 
@@ -43,7 +43,7 @@ void _WaitMode::stop()
 
 void _WaitMode::modeUpdate()
 {
-    if (ButtonA.wasPressed()) {
+    if (ButtonB.isPressed()) {
 #ifdef DEBUG
     Serial.println(F("WaitMode mode button pressed."));
 #endif

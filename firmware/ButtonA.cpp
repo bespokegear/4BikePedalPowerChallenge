@@ -2,8 +2,8 @@
 #include "DualButton.h"
 #include "Config.h"
 
-LatchedButton ButtonA1(MODE_BUTTON_PIN);
-LatchedButton ButtonA2(REMOTE_MODE_BUTTON_PIN, false);
+LatchedButton ButtonA1(WIRED_A_BUTTON_PIN);
+LatchedButton ButtonA2(REMOTE_A_BUTTON_PIN, false);
 
 DualButton ButtonA(&ButtonA1, &ButtonA2);
 

@@ -146,7 +146,7 @@ void loop()
     }
 
     // Detect button presses and behave appropriately
-    if (ButtonB.isPressed()) {
+    if (ButtonA.isPressed()) {
         if (mode == &WaitMode) {
             switchMode(&CountdownMode);
         } else if (mode == &CountdownMode) {

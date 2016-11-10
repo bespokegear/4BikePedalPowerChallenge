@@ -9,8 +9,8 @@ void PwmConfig()
       
     //TCCR2B = TCCR2B & B11111000 | B00000010;    // pins 9, 10:   set timer 2 divisor to 8 for PWM frequency of 3921.16 Hz
     //TCCR4B = TCCR4B & B11111000 | B00000010;    // pins 6, 7, 8: set timer 4 divisor to 8 for PWM frequency of 3921.16 Hz
-    TCCR4B = TCCR4B & B11111000 | B00000001;    // set timer 4 divisor to     1 for PWM frequency of 31372.55 Hz
-    TCCR2B = TCCR2B & B11111000 | B00000001;    // pins 6, 7, 8: set timer 2 divisor to     1 for PWM frequency of 31372.55 Hz
+    TCCR4B = (TCCR4B & B11111000) | B00000001;    // set timer 4 divisor to     1 for PWM frequency of 31372.55 Hz
+    TCCR2B = (TCCR2B & B11111000) | B00000001;    // pins 6, 7, 8: set timer 2 divisor to     1 for PWM frequency of 31372.55 Hz
       
     //For Arduino Mega1280, Mega2560, MegaADK, Spider or any other board using ATmega1280 or ATmega2560**
     //---------------------------------------------- Set PWM frequency for D4 & D13 ------------------------------
