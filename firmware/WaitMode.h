@@ -9,9 +9,6 @@ public:
     void stop();
     void modeUpdate();
 
-private:
-    bool _modeSelect;
-
 };
 
 extern _WaitMode WaitMode;

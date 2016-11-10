@@ -1,9 +1,6 @@
 #include "WaitMode.h"
-#include "ButtonB.h"
 #include "ClockDisplay.h"
-#include "GameMode.h"
 #include <Arduino.h>
-#include <EEPROM.h>
 
 _WaitMode WaitMode;
 
@@ -19,9 +16,8 @@ void _WaitMode::start()
 #ifdef DEBUG
     Serial.println(F("WaitMode::start()"));
 #endif
-    // In case the mode button was pressed while in another mode, clear it.
-    ButtonB.wasPressed();
-    _modeSelect = false;
+    // Clean button presses from other modes
+    ClockDisplay.display("=-=");
 }
 
 void _WaitMode::stop()
@@ -29,33 +25,9 @@ void _WaitMode::stop()
 #ifdef DEBUG
     Serial.println(F("WaitMode::stop()"));
 #endif
-    // Check to see if the level in EEPROM is different from the level
-    // in GameMode, and save if necessary
-    if (GameMode.getLevel() != EEPROM.read(EEPROM_LEVEL_ADDRESS)) {
-#ifdef DEBUG
-        Serial.print("Saving modified GameMode level to EEPROM");
-#endif
-#ifndef NOEEPROM
-        EEPROM.write(EEPROM_LEVEL_ADDRESS, GameMode.getLevel());
-#endif
-    }
 }
 
 void _WaitMode::modeUpdate()
 {
-    if (ButtonB.isPressed()) {
-#ifdef DEBUG
-    Serial.println(F("WaitMode mode button pressed."));
-#endif
-        uint8_t d = GameMode.getLevel();
-        if (_modeSelect) {
-            d = (d%GAME_LEVEL_MAX) + 1;
-            GameMode.setLevel(d);
-        }
-        Serial.print(F("Level="));
-        Serial.println(d);
-        ClockDisplay.display('L', (d/10)%10, d%10);
-        _modeSelect = true;
-    }
 }
 

@@ -27,6 +27,7 @@
 #include "WaitMode.h"
 #include "CountdownMode.h"
 #include "GameMode.h"
+#include "SettingsMode.h"
 #include "ArduinoVin.h"
 #include "ClockDisplay.h"
 #include "Players.h"
@@ -41,8 +42,7 @@
 // See Config.h for pin and other configuration
 
 // Global variables - we begin in Wait Mode
-//Mode* mode = &WaitMode;
-Mode* mode = &GameMode;
+Mode* mode = &WaitMode;
 
 #ifdef DEBUGTIME
 unsigned long lastLoop = 0;
@@ -78,6 +78,7 @@ void setup()
     WaitMode.begin();
     CountdownMode.begin();
     GameMode.begin();
+    SettingsMode.begin();
 
     // Let things settle
     delay(500);
@@ -152,7 +153,16 @@ void loop()
         } else if (mode == &CountdownMode) {
             switchMode(&GameMode);
         } else if (mode == &GameMode) {
-            ClockDisplay.clear();
+            switchMode(&WaitMode);
+        }
+    }
+
+    if (ButtonB.isPressed()) {
+        if (mode == &WaitMode) {
+            switchMode(&SettingsMode);
+        } else if (mode == &CountdownMode) {
+            switchMode(&WaitMode);
+        } else if (mode == &GameMode) {
             switchMode(&WaitMode);
         }
     }

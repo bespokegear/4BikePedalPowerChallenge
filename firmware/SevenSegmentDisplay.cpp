@@ -264,6 +264,14 @@ uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
     case 'r':
         displayData = SEG_CEN_H | SEG_BOT_L; 
         break;
+    case 'V':
+    case 'U':
+        displayData = SEG_BOT_H | SEG_BOT_L | SEG_BOT_R | SEG_TOP_L | SEG_TOP_R; 
+        break;
+    case 'v':
+    case 'u':
+        displayData = SEG_BOT_H | SEG_BOT_L | SEG_BOT_R; 
+        break;
     case '#':
         // Used to test all elements
         displayData = SEG_TOP_H | SEG_CEN_H | SEG_BOT_H | SEG_TOP_L | SEG_TOP_R | SEG_BOT_L | SEG_BOT_R | SEG_DEC_P;
