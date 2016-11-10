@@ -55,7 +55,7 @@ void setup()
     analogReference(VIN_REF);
 
     // Set up PWM clocks
-    PWMConfig();
+    PwmConfig();
 
     // Set up the blinker
     Heartbeat.begin();
