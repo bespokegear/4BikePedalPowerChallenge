@@ -174,6 +174,7 @@ void loop()
     if (mode->isFinished()) {
         if (mode == &CountdownMode) { switchMode(&GameMode); }
         else if (mode == &GameMode) { switchMode(&WaitMode); }
+        else if (mode == &SettingsMode) { switchMode(&WaitMode); }
     }
 }
 

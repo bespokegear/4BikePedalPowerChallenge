@@ -17,7 +17,7 @@ void _WaitMode::start()
     Serial.println(F("WaitMode::start()"));
 #endif
     // Clean button presses from other modes
-    ClockDisplay.display("=-=");
+    ClockDisplay.display("Hi!");
 }
 
 void _WaitMode::stop()
