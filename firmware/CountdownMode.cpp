@@ -4,6 +4,7 @@
 #include "CountdownMode.h"
 #include "ClockDisplay.h"
 #include "CorrectedMillis.h"
+#include "SerialOut.h"
 
 _CountdownMode CountdownMode;
 
@@ -16,7 +17,6 @@ void _CountdownMode::begin()
 #ifdef DEBUG
     Serial.println(F("CountdownMode::begin()"));
 #endif
-    start();
 }
 
 void _CountdownMode::start()
@@ -24,6 +24,7 @@ void _CountdownMode::start()
 #ifdef DEBUG
     Serial.println(F("CountdownMode::start()"));
 #endif
+    SerialOutln(F("aRESET")); 
     _start = millis();
     _lastSent = -1;
 }

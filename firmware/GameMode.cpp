@@ -5,6 +5,7 @@
 #include "ClockDisplay.h"
 #include "Players.h"
 #include "Settings.h"
+#include "SerialOut.h"
 #include "CorrectedMillis.h"
 
 _GameMode GameMode;
@@ -25,6 +26,7 @@ void _GameMode::start()
 #ifdef DEBUG
     Serial.println(F("GameMode start"));
 #endif
+    SerialOutln(F("aSTART"));
     _startMillis = millis();
     _lastUpdate = _startMillis;
     _lastLEDUpdate = _startMillis;
@@ -39,6 +41,26 @@ void _GameMode::stop()
 #ifdef DEBUG
     Serial.print(F("GameMode stop"));
 #endif
+    SerialOutln(F("aEND"));
+    // 6 chars per player, 7 for "aResult", 1 for tailing "t", and one NULL stop char
+    char buf[(PLAYER_COUNT*6)+7+1+1];
+    memset(buf, 0, sizeof(char)*(PLAYER_COUNT*6)+7+1+1);
+    memcpy(buf, "aRESULT", 7);
+    uint8_t idx = 7;
+    int16_t powerInt;
+    for (uint8_t i=0; i<PLAYER_COUNT; i++) {
+        powerInt = Players[i].getMaxPower() * 100;
+        if (powerInt<0)  powerInt = 0;
+        buf[idx++] = 'A' + i;
+        buf[idx++] = '0' + ((powerInt/10000) % 10);
+        buf[idx++] = '0' + ((powerInt/1000) % 10);
+        buf[idx++] = '0' + ((powerInt/100) % 10);
+        buf[idx++] = '0' + ((powerInt/10) % 10);
+        buf[idx++] = '0' + (powerInt % 10);
+    }
+    // append time to buf
+    buf[idx++] = 't';
+    SerialOutln(buf);
 }
 
 void _GameMode::reset()
@@ -92,10 +114,37 @@ void _GameMode::writePixels()
 #ifdef DEBUGFUNC
     Serial.println(F("GameMode::writePixels"));
 #endif
+    // 6 chars per player, 8 for the time, 1 each for: leading a, tailing t; NULL stop
+    char buf[(PLAYER_COUNT*6)+8+1+1+1];
+    memset(buf, 0, sizeof(char)*(PLAYER_COUNT*6)+8+1+1+1);
+    buf[0] = 'a';
+    uint8_t idx = 1;
+    uint16_t powerInt;
     for (uint8_t i=0; i<PLAYER_COUNT; i++) {
+        powerInt = Players[i].getPower() * 100;
+        if (powerInt<0) powerInt = 0;
+        buf[idx++] = 'A' + i;
+        buf[idx++] = '0' + ((powerInt/10000) % 10);
+        buf[idx++] = '0' + ((powerInt/1000) % 10);
+        buf[idx++] = '0' + ((powerInt/100) % 10);
+        buf[idx++] = '0' + ((powerInt/10) % 10);
+        buf[idx++] = '0' + (powerInt % 10);
         float n = Players[i].getPower()/PLAYER_MAX_POWER;
         Players[i].displayLED(n);
     }
+    // append time to buf
+    long time100ths = (millis()-_startMillis)*10;
+    buf[idx++] = 'T';
+    buf[idx++] = '0' + ((time100ths/1000000) % 10);
+    buf[idx++] = '0' + ((time100ths/100000) % 10);
+    buf[idx++] = '0' + ((time100ths/10000) % 10);
+    buf[idx++] = '0' + ((time100ths/1000) % 10);
+    buf[idx++] = '0' + ((time100ths/100) % 10);
+    buf[idx++] = '0' + ((time100ths/10) % 10);
+    buf[idx++] = '0' + (time100ths%10);
+    buf[idx++] = 't';
+    SerialOutln(buf);
+
 }
 
 bool _GameMode::isFinished()
