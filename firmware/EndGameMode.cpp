@@ -49,6 +49,11 @@ uint8_t _EndGameMode::getWinner()
     float max = 0;
     uint8_t winner = 0;
     for(uint8_t i=0; i<PLAYER_COUNT; i++) {
+#ifdef DEBUG
+        Serial.print(i+1);
+        Serial.print(F("UP maxPower="));
+        Serial.println(Players[i].getMaxPower());
+#endif
         if (Players[i].getMaxPower() > max) {
             max = Players[i].getMaxPower();
             winner = i;
