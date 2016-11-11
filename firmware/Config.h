@@ -23,7 +23,6 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define PLAYER_LED_TYPE             (NEO_GRB + NEO_KHZ800)
 #define PLAYER_LED_BRIGHTNESS       255
 #define PLAYER_LED_UPDATE_MS        250
-#define PLAYER_MAX_POWER            100
 
 // Load control constants
 // Target delay for load controller updates in ms
@@ -31,7 +30,7 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 // Generates warnings if happens less than this...
 #define LOAD_CONTROLLER_WARNING_MS  20
 #define LOAD_CONTROL_MIN_VOLTS      12.0
-#define LOAD_CONTROL_MAX_VOLTS      40.0
+#define LOAD_CONTROL_MAX_VOLTS      25.0
 #define LOAD_DUMP_R_OHM             3.0
 
 // General config
@@ -71,7 +70,7 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 // Button config
 #define BUTTON_DEBOUNCE_COUNT       3
 #define BUTTON_DEBOUNCE_MS          10
-#define BUTTON_NOREPEAT_MS          100
+#define BUTTON_NOREPEAT_MS          500
 
 // For calculating clock offset when Adafruit_NeoPixel.show() is called
 // increasing this number makes the clock go FASTER

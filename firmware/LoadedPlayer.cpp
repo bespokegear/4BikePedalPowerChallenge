@@ -38,6 +38,13 @@ void LoadedPlayer::update()
     else load = (vin - LOAD_CONTROL_MIN_VOLTS) / (LOAD_CONTROL_MAX_VOLTS-LOAD_CONTROL_MIN_VOLTS);
     _pwmLoad = load >= 1.0 ? 255 : (uint8_t)(255*load);
 
+#ifdef DEBUGVIN
+    Serial.print(F("vin="));
+    Serial.print(vin, 1);
+    Serial.print(F(", pwm="));
+    Serial.println(_pwmLoad);
+#endif
+
 #ifndef NO_LOAD_CONTROL
     // Set the PWM value 
     analogWrite(_pwmPin, _pwmLoad);

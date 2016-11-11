@@ -26,6 +26,8 @@ private:
     unsigned long _lastLEDUpdate;
     long _lastClock;
 
+    void dumpResults();
+
 };
 
 extern _GameMode GameMode;

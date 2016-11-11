@@ -24,7 +24,9 @@ void _CountdownMode::start()
 #ifdef DEBUG
     Serial.println(F("CountdownMode::start()"));
 #endif
-    SerialOutln(F("aRESET")); 
+    for (uint8_t i=0; i<5; i++) {
+        SerialOutln(F("aRESET")); 
+    }
     _start = millis();
     _lastSent = -1;
 }

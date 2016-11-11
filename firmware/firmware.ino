@@ -54,6 +54,7 @@ unsigned long lastLoop = 0;
 void setup()
 {
     Serial.begin(115200);
+    Serial1.begin(115200);
 
     // Use external reference
     analogReference(VIN_REF);

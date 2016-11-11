@@ -26,7 +26,9 @@ void _GameMode::start()
 #ifdef DEBUG
     Serial.println(F("GameMode start"));
 #endif
-    SerialOutln(F("aSTART"));
+    for (uint8_t i=0; i<5; i++) {
+        SerialOutln(F("aSTART"));
+    }
     _startMillis = millis();
     _lastUpdate = _startMillis;
     _lastLEDUpdate = _startMillis;
@@ -41,7 +43,16 @@ void _GameMode::stop()
 #ifdef DEBUG
     Serial.print(F("GameMode stop"));
 #endif
-    SerialOutln(F("aEND"));
+    for (uint8_t i=0; i<5; i++) {
+        SerialOutln(F("aEND"));
+    }
+    for (uint8_t i=0; i<5; i++) {
+        dumpResults();
+    }
+}
+
+void _GameMode::dumpResults()
+{
     // 6 chars per player, 7 for "aResult", 1 for tailing "t", and one NULL stop char
     char buf[(PLAYER_COUNT*6)+7+1+1];
     memset(buf, 0, sizeof(char)*(PLAYER_COUNT*6)+7+1+1);
@@ -49,8 +60,7 @@ void _GameMode::stop()
     uint8_t idx = 7;
     int16_t powerInt;
     for (uint8_t i=0; i<PLAYER_COUNT; i++) {
-        powerInt = Players[i].getMaxPower() * 100;
-        if (powerInt<0)  powerInt = 0;
+        powerInt = Players[i].getMaxPower() > 0 ? Players[i].getMaxPower() * 100 : 0;
         buf[idx++] = 'A' + i;
         buf[idx++] = '0' + ((powerInt/10000) % 10);
         buf[idx++] = '0' + ((powerInt/1000) % 10);
@@ -121,7 +131,7 @@ void _GameMode::writePixels()
     uint8_t idx = 1;
     uint16_t powerInt;
     for (uint8_t i=0; i<PLAYER_COUNT; i++) {
-        powerInt = Players[i].getPower() * 100;
+        powerInt = Players[i].getPower() > 0 ? Players[i].getPower() * 100 : 0;
         if (powerInt<0) powerInt = 0;
         buf[idx++] = 'A' + i;
         buf[idx++] = '0' + ((powerInt/10000) % 10);
@@ -129,13 +139,12 @@ void _GameMode::writePixels()
         buf[idx++] = '0' + ((powerInt/100) % 10);
         buf[idx++] = '0' + ((powerInt/10) % 10);
         buf[idx++] = '0' + (powerInt % 10);
-        float n = Players[i].getPower()/PLAYER_MAX_POWER;
+        float n = Players[i].getPower()/MaximumPowerWatts.get();
         Players[i].displayLED(n);
     }
     // append time to buf
-    long time100ths = (millis()-_startMillis)*10;
+    long time100ths = (millis()-_startMillis);
     buf[idx++] = 'T';
-    buf[idx++] = '0' + ((time100ths/1000000) % 10);
     buf[idx++] = '0' + ((time100ths/100000) % 10);
     buf[idx++] = '0' + ((time100ths/10000) % 10);
     buf[idx++] = '0' + ((time100ths/1000) % 10);
