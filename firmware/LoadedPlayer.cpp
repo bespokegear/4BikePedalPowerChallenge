@@ -1,6 +1,7 @@
+#include <Arduino.h>
 #include "Config.h"
 #include "LoadedPlayer.h"
-#include <Arduino.h>
+#include "CorrectedMillis.h"
 
 LoadedPlayer::LoadedPlayer(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm, 
                            uint8_t curPin, float vSupply,

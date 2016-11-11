@@ -16,6 +16,12 @@
 #include <EEPROM.h>
 #include <Adafruit_NeoPixel.h>
 
+// General Arduino features
+#include <Arduino.h>
+
+// For watchdog
+#include <avr/wdt.h>
+
 // General configuration
 #include "Config.h"
 
@@ -34,13 +40,8 @@
 #include "Util.h"
 #include "Settings.h"
 
-// General Arduino features
-#include <Arduino.h>
-
-// For watchdog
-#include <avr/wdt.h>
-
-// See Config.h for pin and other configuration
+// Use or own implementation of millis()
+#include "CorrectedMillis.h"
 
 // Global variables - we begin in Wait Mode
 Mode* mode = &WaitMode;

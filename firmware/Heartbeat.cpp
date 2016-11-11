@@ -1,6 +1,7 @@
+#include <Arduino.h>
 #include "Heartbeat.h"
 #include "Config.h"
-#include <Arduino.h>
+#include "CorrectedMillis.h"
 
 _Heartbeat Heartbeat(HEARTBEAT_LED_PIN);
 

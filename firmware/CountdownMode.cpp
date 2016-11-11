@@ -1,8 +1,9 @@
+#include <stdint.h>
+#include <Arduino.h>
 #include "Config.h"
 #include "CountdownMode.h"
 #include "ClockDisplay.h"
-#include <stdint.h>
-#include <Arduino.h>
+#include "CorrectedMillis.h"
 
 _CountdownMode CountdownMode;
 
