@@ -1,7 +1,8 @@
+#include <Arduino.h>
 #include "Player.h"
 #include "Config.h"
 #include "Settings.h"
-#include <Arduino.h>
+#include "CorrectedMillis.h"
 
 Player::Player(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm, 
                uint8_t curPin, float vSupply,
@@ -75,8 +76,7 @@ void Player::displayLED(float n)
         _LED.setPixelColor((_max*2)+1, _maxColor);
     }
 
-    _LED.show();
-
+    showLED();
 }
 
 void Player::reset()
@@ -84,3 +84,21 @@ void Player::reset()
     _max = 0;
     displayLED(0.0);
 }
+
+void Player::showLED()
+{
+    _LED.show();
+    // The _LED.show() call disabled interrupts while the LEDs are getting updated
+    // which leads to innacuracy of millis(). We add an adjustment here, which is
+    // used by our own implementation of millis(), which is enabled by including
+    // CorrectedMillis.h.
+    unsigned long d = ((unsigned long)(_LED.numPixels()*LED_CLOCK_FACTOR))/1000UL;
+    d += LED_CLOCK_OFFSET;
+    addMillisOffset(d);
+#ifdef DEBUG
+    Serial.print(F("Player::showLED offset:"));
+    Serial.println(d);
+#endif
+
+}
+

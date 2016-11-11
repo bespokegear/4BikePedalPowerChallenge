@@ -74,4 +74,7 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define BUTTON_DEBOUNCE_MS          10
 #define BUTTON_NOREPEAT_MS          500
 
+// For calculating clock offset when Adafruit_NeoPixel.show() is called
+#define LED_CLOCK_FACTOR            50
+#define LED_CLOCK_OFFSET            2
 

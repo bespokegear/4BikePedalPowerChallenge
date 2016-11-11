@@ -1,9 +1,9 @@
 #pragma once
 
-#include "VoltageSampler.h"
-#include "CurrentSampler.h"
 #include <Adafruit_NeoPixel.h>
 #include <stdint.h>
+#include "VoltageSampler.h"
+#include "CurrentSampler.h"
 
 class Player : public VoltageSampler, public CurrentSampler {
 public:
@@ -36,5 +36,8 @@ private:
     uint32_t _ledColor;
     uint32_t _maxColor;
     uint16_t _max;
+
+    // updates LEDs, and adds clock offset
+    void showLED();
 
 };
