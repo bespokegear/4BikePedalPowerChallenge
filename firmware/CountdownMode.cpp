@@ -56,6 +56,6 @@ int8_t _CountdownMode::seconds()
 
 bool _CountdownMode::isFinished()
 {
-    return seconds() <= 0;
+    return seconds() < 0;
 }
 
