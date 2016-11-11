@@ -8,12 +8,13 @@ public:
     void start();
     void stop();
     void modeUpdate();
-    uint8_t getWinner();
 
 private:
     unsigned long _start;
     unsigned long _last;
+    uint8_t _winner;
 
+    uint8_t getWinner();
 };
 
 extern _EndGameMode EndGameMode;

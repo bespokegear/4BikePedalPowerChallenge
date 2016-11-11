@@ -14,25 +14,36 @@ public:
     ~Player();
 
     // Call from setup(), initializes pins and so on
-    virtual void begin();
+    void begin();
 
     // Call as frequently as possible
-    virtual void update();
+    void update();
 
     // VoltageSampler::getVoltage + diode compensation
-    virtual float getVoltage();
+    float getVoltage();
 
     // Get power in Watts
-    virtual float getPower();
+    float getPower();
 
     // Get max power in Watts since last reset()
-    virtual float getMaxPower();
+    float getMaxPower();
+
+    // Get max power in Watts since last reset()
+    uint16_t getMaxLED() { return _maxLed; }
 
     // Update LED graph with value (n=0 is none, n=1 is all)
-    virtual void displayLED(float n);
+    void displayLED(float n);
 
     // reset the recent maximum value
     void reset();
+
+    // get a reference to _LED
+    Adafruit_NeoPixel& LED() { return _LED; }
+
+    // updates LEDs, and adds clock offset
+    void showLED();
+
+    void fillup();
 
 private:
     Adafruit_NeoPixel _LED;
@@ -40,8 +51,5 @@ private:
     uint32_t _maxLedColor;
     uint16_t _maxLed;
     float _maxPower;
-
-    // updates LEDs, and adds clock offset
-    void showLED();
 
 };

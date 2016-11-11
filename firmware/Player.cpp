@@ -111,3 +111,8 @@ void Player::showLED()
 
 }
 
+void Player::fillup()
+{
+    displayLED(_maxPower / MaximumPowerWatts.get());
+}
+

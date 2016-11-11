@@ -24,7 +24,9 @@ void _EndGameMode::start()
     Serial.println(F("setup() E"));
 #endif
     // Clean button presses from other modes
-    ClockDisplay.display('P', getWinner(), '!');
+    _winner = getWinner();
+    Players[_winner].fillup();
+    ClockDisplay.display('P', _winner+1, '!');
     _start = millis();
 }
 
@@ -41,7 +43,57 @@ void _EndGameMode::modeUpdate()
 {
     // flash clock output
     ClockDisplay.setEnable(((millis() - _start)/800)%2==0);
-    _last = millis();
+    Adafruit_NeoPixel& LED = Players[_winner].LED();
+    uint16_t max = Players[_winner].getMaxLED() * 2;
+    uint8_t r = 255;
+    uint8_t g = 255;
+    uint8_t b = 255;
+    uint16_t i;
+
+    if (millis() - _last > 100) {
+        i = random(0, max);
+        switch (random(17)) {
+        case 0:
+            g = 220;
+            break;
+        case 1:
+            r = 220;
+            break;
+        case 2:
+        case 3:
+        case 4:
+            r = 80;
+            g = 128;
+            break;
+        default:
+            r = 30;
+            g = 70;
+            b = 205;
+            break;
+        }
+        _last = millis();
+        LED.setPixelColor(i, r, g, b); 
+    }
+
+    r /= 3;
+    g /= 3;
+    b /= 3;
+    if (i > 0) LED.setPixelColor(i-1, r, g, b); 
+    if (i < max-1) LED.setPixelColor(i+1, r, g, b); 
+
+    for(i=0; i<max; i++) {
+        const uint32_t color = LED.getPixelColor(i);
+        r = color >> 16; 
+        g = (color - r) >> 8;
+        b = color % 256;
+        if (r > 0) r--;
+        if (g > 0) g--;
+        if (b > 0) b--;
+        LED.setPixelColor(i, r, g, b); 
+    }   
+
+    Players[_winner].showLED();
+
 }
 
 uint8_t _EndGameMode::getWinner()
@@ -59,6 +111,6 @@ uint8_t _EndGameMode::getWinner()
             winner = i;
         }
     }
-    return winner+1;
+    return winner;
 }
 
