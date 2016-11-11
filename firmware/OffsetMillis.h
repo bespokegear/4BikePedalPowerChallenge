@@ -2,5 +2,5 @@
 
 extern unsigned long _MillisOffsetMs;
 unsigned long MillisOffset(); 
-void addMillisOffset(unsigned long ms);
+void addMillisOffset(float ms);
 

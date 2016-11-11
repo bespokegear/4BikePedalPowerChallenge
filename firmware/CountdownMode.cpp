@@ -39,10 +39,6 @@ void _CountdownMode::stop()
 void _CountdownMode::modeUpdate()
 {
     int8_t left = seconds();
-#ifdef DEBUG
-    Serial.print(F("CountdownMode::modeUpdate() left="));
-    Serial.println(left);
-#endif
     if (_lastSent != left) {
         _lastSent = left;
         if (left > 0) {
@@ -51,13 +47,6 @@ void _CountdownMode::modeUpdate()
             ClockDisplay.display("Go!");
         }
     }
-    //for (int i=LED1_COUNT-1; i>=0; i--) {
-    //    if (LED1.getPixelColor(i) != P1_OFF_COLOR) {
-    //        LED1.setPixelColor(i, P1_OFF_COLOR);
-    //        LED1.show();
-    //        break;
-    //    }
-    //} 
 }
 
 int8_t _CountdownMode::seconds()
@@ -67,6 +56,6 @@ int8_t _CountdownMode::seconds()
 
 bool _CountdownMode::isFinished()
 {
-    return seconds() < 0;
+    return seconds() <= 0;
 }
 

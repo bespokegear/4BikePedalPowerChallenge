@@ -18,7 +18,6 @@ void _GameMode::begin()
 #ifdef DEBUGFUNC
     Serial.print(F("GameMode::_begin"));
 #endif
-    start();
 }
 
 void _GameMode::start()
@@ -111,7 +110,7 @@ bool _GameMode::isFinished()
 
 void _GameMode::writeClock()
 {
-    long tenths = (GAME_LENGTH_SECONDS*10)-((millis()-_startMillis)/100);
+    long tenths = (GameDurationSeconds.get()*10)-((millis()-_startMillis)/100);
     if (tenths == _lastClock || tenths < 0) { return; }
     uint8_t c1, c2, c3, decPt;
     if (tenths < 1000) {

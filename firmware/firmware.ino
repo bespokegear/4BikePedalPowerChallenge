@@ -91,15 +91,6 @@ void setup()
     // Enable watchdog reset at 1/4 sec
     wdt_enable(WDTO_250MS);
 
-#ifdef DEBUG
-    Serial.print(F("Settings: MaximumPowerWatts="));
-    Serial.print(MaximumPowerWatts.get());
-    Serial.print(F(" GameDurationSeconds="));
-    Serial.print(GameDurationSeconds.get());
-    Serial.print(F(" NumberOfLedSegments="));
-    Serial.println(NumberOfLedSegments.get());
-    Serial.println(F("setup() E"));
-#endif
 }
 
 void loopDebug()

@@ -64,10 +64,9 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 // GameMode parameters
 #define GAME_LEVEL_ENERGY_STEP      1000
 #define GAME_LEVEL_MAX              20
-#define GAME_LENGTH_SECONDS         30
 
 // Other mode settings
-#define COUNTDOWN_SECONDS           5
+#define COUNTDOWN_SECONDS           0
 
 // Button config
 #define BUTTON_DEBOUNCE_COUNT       3
@@ -75,6 +74,6 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define BUTTON_NOREPEAT_MS          500
 
 // For calculating clock offset when Adafruit_NeoPixel.show() is called
-#define LED_CLOCK_FACTOR            50
-#define LED_CLOCK_OFFSET            2
+// increasing this number makes the clock go FASTER
+#define LED_CLOCK_CORRECTION        24.5
 

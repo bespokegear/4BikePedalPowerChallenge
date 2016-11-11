@@ -92,13 +92,7 @@ void Player::showLED()
     // which leads to innacuracy of millis(). We add an adjustment here, which is
     // used by our own implementation of millis(), which is enabled by including
     // CorrectedMillis.h.
-    unsigned long d = ((unsigned long)(_LED.numPixels()*LED_CLOCK_FACTOR))/1000UL;
-    d += LED_CLOCK_OFFSET;
-    addMillisOffset(d);
-#ifdef DEBUG
-    Serial.print(F("Player::showLED offset:"));
-    Serial.println(d);
-#endif
+    addMillisOffset(LED_CLOCK_CORRECTION*PLAYER_SEGMENT_LEDS*PLAYER_SEGMENT_MAX/1000.);
 
 }
 

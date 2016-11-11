@@ -2,5 +2,5 @@
 
 #include "OffsetMillis.h"
 
-#define missis      OffsetMillis
+#define millis      MillisOffset
 

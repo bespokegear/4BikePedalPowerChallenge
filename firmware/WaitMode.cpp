@@ -1,6 +1,7 @@
+#include <Arduino.h>
 #include "WaitMode.h"
 #include "ClockDisplay.h"
-#include <Arduino.h>
+#include "Settings.h"
 
 _WaitMode WaitMode;
 
@@ -15,6 +16,13 @@ void _WaitMode::start()
 {
 #ifdef DEBUG
     Serial.println(F("WaitMode::start()"));
+    Serial.print(F("Settings: MaximumPowerWatts="));
+    Serial.print(MaximumPowerWatts.get());
+    Serial.print(F(" GameDurationSeconds="));
+    Serial.print(GameDurationSeconds.get());
+    Serial.print(F(" NumberOfLedSegments="));
+    Serial.println(NumberOfLedSegments.get());
+    Serial.println(F("setup() E"));
 #endif
     // Clean button presses from other modes
     ClockDisplay.display("Hi!");

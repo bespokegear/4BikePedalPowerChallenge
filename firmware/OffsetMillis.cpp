@@ -1,16 +1,12 @@
 #include <Arduino.h>
 
-unsigned long _MillisOffsetMs = 0;
+float _MillisOffsetMs = 0.;
 
 unsigned long MillisOffset() {
-    unsigned long m = millis();
-    if (_MillisOffsetMs > m)
-        return 0;
-    else
-        return m - _MillisOffsetMs;
+    return millis() + (unsigned long)_MillisOffsetMs;
 }
 
-void addMillisOffset(unsigned long ms)
+void addMillisOffset(float ms)
 {
     _MillisOffsetMs += ms;
 }
