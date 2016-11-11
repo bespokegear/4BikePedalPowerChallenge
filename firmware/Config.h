@@ -18,7 +18,7 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define PLAYER_VIN_R2               560
 #define PLAYER_VIN_FUDGE_FACTOR     2.1
 #define PLAYER_VIN_THRESHOLD        (PLAYER_VIN_FUDGE_FACTOR + 0.2)
-#define PLAYER_SEGMENT_LEDS         60 
+#define PLAYER_SEGMENT_LEDS         60
 #define PLAYER_SEGMENT_MAX          3 
 #define PLAYER_LED_TYPE             (NEO_GRB + NEO_KHZ800)
 #define PLAYER_LED_BRIGHTNESS       255
@@ -66,7 +66,7 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define GAME_LEVEL_MAX              20
 
 // Other mode settings
-#define COUNTDOWN_SECONDS           0
+#define COUNTDOWN_SECONDS           3
 
 // Button config
 #define BUTTON_DEBOUNCE_COUNT       3

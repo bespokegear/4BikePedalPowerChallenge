@@ -12,7 +12,7 @@ Player::Player(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm,
     CurrentSampler(curPin, vSupply),
     _LED(ledCount, ledPin, ledType),
     _ledColor(ledColor),
-    _maxColor(maxColor)
+    _maxLedColor(maxColor)
 {
 }
 
@@ -51,6 +51,20 @@ float Player::getVoltage()
     return VoltageSampler::getVoltage() + PLAYER_VIN_FUDGE_FACTOR;
 }
 
+float Player::getPower() 
+{ 
+    float p = getVoltage() * getCurrent();
+    if (p > _maxPower) {
+        _maxPower = p;
+    }
+    return p;
+}
+
+float Player::getMaxPower() 
+{
+    return _maxPower;
+}
+
 void Player::displayLED(float n)
 {
 #ifdef DEBUGFUNC
@@ -67,13 +81,13 @@ void Player::displayLED(float n)
         if (lit) lastLit = i;
     }
 
-    if (lastLit >= _max) {
-        _max = lastLit;
+    if (lastLit >= _maxLed) {
+        _maxLed = lastLit;
     }
 
-    if (_max>0) {
-        _LED.setPixelColor(_max*2, _maxColor);
-        _LED.setPixelColor((_max*2)+1, _maxColor);
+    if (_maxLed>0) {
+        _LED.setPixelColor(_maxLed*2, _maxLedColor);
+        _LED.setPixelColor((_maxLed*2)+1, _maxLedColor);
     }
 
     showLED();
@@ -81,7 +95,8 @@ void Player::displayLED(float n)
 
 void Player::reset()
 {
-    _max = 0;
+    _maxLed = 0;
+    _maxPower = 0.;
     displayLED(0.0);
 }
 

@@ -23,7 +23,10 @@ public:
     virtual float getVoltage();
 
     // Get power in Watts
-    virtual float getPower() { return getVoltage() * getCurrent(); }
+    virtual float getPower();
+
+    // Get max power in Watts since last reset()
+    virtual float getMaxPower();
 
     // Update LED graph with value (n=0 is none, n=1 is all)
     virtual void displayLED(float n);
@@ -34,8 +37,9 @@ public:
 private:
     Adafruit_NeoPixel _LED;
     uint32_t _ledColor;
-    uint32_t _maxColor;
-    uint16_t _max;
+    uint32_t _maxLedColor;
+    uint16_t _maxLed;
+    float _maxPower;
 
     // updates LEDs, and adds clock offset
     void showLED();

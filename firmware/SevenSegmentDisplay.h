@@ -32,6 +32,10 @@ public:
     // corrupted due to noise)
     void redisplay();
 
+    // Turns on and off the LEDs.  Note that what is displayed is not changed - just
+    // whenther or not the display is illuminated.
+    void setEnable(bool on);
+
 private:
     uint8_t _SLatchPin;
     uint8_t _SClkPin;

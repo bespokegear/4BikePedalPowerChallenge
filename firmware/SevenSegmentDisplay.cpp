@@ -58,7 +58,7 @@ void SevenSegmentDisplay::begin()
     pinMode(_SClkPin,    OUTPUT);
     pinMode(_SDataPin,   OUTPUT);
     pinMode(_SEnablePin, OUTPUT);
-    digitalWrite(_SEnablePin, LOW);
+    setEnable(true);
 }
 
 void SevenSegmentDisplay::clear()
@@ -161,6 +161,12 @@ void SevenSegmentDisplay::display(uint8_t c1, uint8_t c2, uint8_t c3, uint8_t de
 void SevenSegmentDisplay::redisplay()
 {
     display(_lastValues[0], _lastValues[1], _lastValues[2], _lastValues[3]);
+}
+
+void SevenSegmentDisplay::setEnable(bool on)
+{
+    // reversed logic
+    digitalWrite(_SEnablePin, on ? LOW : HIGH);
 }
 
 uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
@@ -302,6 +308,5 @@ uint8_t SevenSegmentDisplay::int7segment (uint8_t segmentData)
     }
     return displayData;
 }
-
 
 

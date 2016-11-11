@@ -33,6 +33,7 @@
 #include "WaitMode.h"
 #include "CountdownMode.h"
 #include "GameMode.h"
+#include "EndGameMode.h"
 #include "SettingsMode.h"
 #include "ArduinoVin.h"
 #include "ClockDisplay.h"
@@ -80,6 +81,7 @@ void setup()
     WaitMode.begin();
     CountdownMode.begin();
     GameMode.begin();
+    EndGameMode.begin();
     SettingsMode.begin();
 
     // Let things settle
@@ -153,6 +155,8 @@ void loop()
             switchMode(&GameMode);
         } else if (mode == &GameMode) {
             switchMode(&WaitMode);
+        } else if (mode == &EndGameMode) {
+            switchMode(&WaitMode);
         }
     }
 
@@ -172,7 +176,7 @@ void loop()
     // Handle modes timing out
     if (mode->isFinished()) {
         if (mode == &CountdownMode) { switchMode(&GameMode); }
-        else if (mode == &GameMode) { switchMode(&WaitMode); }
+        else if (mode == &GameMode) { switchMode(&EndGameMode); }
         else if (mode == &SettingsMode) { switchMode(&WaitMode); }
     }
 }
