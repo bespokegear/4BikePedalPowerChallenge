@@ -9,6 +9,10 @@ public:
     void stop();
     void modeUpdate();
 
+private:
+    uint16_t _wipe;
+    unsigned long _last;
+
 };
 
 extern _WaitMode WaitMode;

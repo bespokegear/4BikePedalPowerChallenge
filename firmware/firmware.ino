@@ -154,7 +154,7 @@ void loop()
         } else if (mode == &CountdownMode) {
             switchMode(&GameMode);
         } else if (mode == &GameMode) {
-            switchMode(&WaitMode);
+            switchMode(&EndGameMode);
         } else if (mode == &EndGameMode) {
             switchMode(&WaitMode);
         }
@@ -163,11 +163,9 @@ void loop()
     if (ButtonB.isPressed()) {
         if (mode == &WaitMode) {
             switchMode(&SettingsMode);
-        } else if (mode == &CountdownMode) {
+        } else if (mode != &SettingsMode) {
             switchMode(&WaitMode);
-        } else if (mode == &GameMode) {
-            switchMode(&WaitMode);
-        }
+        } 
     }
 
     // Give a timeslice to the current mode

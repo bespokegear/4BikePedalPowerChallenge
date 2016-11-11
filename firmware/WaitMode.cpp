@@ -1,7 +1,10 @@
 #include <Arduino.h>
 #include "WaitMode.h"
 #include "ClockDisplay.h"
+#include "Config.h"
+#include "Players.h"
 #include "Settings.h"
+#include "CorrectedMillis.h"
 
 _WaitMode WaitMode;
 
@@ -26,6 +29,8 @@ void _WaitMode::start()
 #endif
     // Clean button presses from other modes
     ClockDisplay.display("Hi!");
+    _wipe = NumberOfLedSegments.get()*PLAYER_SEGMENT_LEDS;
+    _last = millis();
 }
 
 void _WaitMode::stop()
@@ -37,5 +42,13 @@ void _WaitMode::stop()
 
 void _WaitMode::modeUpdate()
 {
+    if (millis() - _last > 5 && _wipe > 0) {
+        _wipe--;
+        for (uint8_t p=0; p<PLAYER_COUNT; p++) {
+            Players[p].LED().setPixelColor(_wipe, 0x000000UL);
+            Players[p].showLED();
+        }
+        _last = millis();
+    }
 }
 
