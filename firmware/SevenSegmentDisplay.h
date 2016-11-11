@@ -14,10 +14,15 @@ public:
     void clear();
 
     // e.g. "Go!"
-    void display(char str[3]);
+    void display(const char* str);
 
     // integer from -99 -> 999
     void display(int16_t i, bool zeroPad=false);
+
+    // display a character and small integer
+    // display('L', 1)  displays "L 1"
+    // display('P', 34) displays "P34"
+    void displaySetting(char c, int8_t i, bool zeroPad=false);
 
     // send characters or digits, e.g.
     // display('-', '5', 5) displays -55

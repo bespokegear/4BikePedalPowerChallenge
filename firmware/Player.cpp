@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Config.h"
+#include "Settings.h"
 #include <Arduino.h>
 
 Player::Player(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm, 
@@ -57,8 +58,9 @@ void Player::displayLED(float n)
     uint16_t i;
     uint16_t lastLit = 0;
     bool lit;
-    for (i=0; i<PLAYER_LED_COUNT/2; i++) {
-        bool lit = ((n*(PLAYER_LED_COUNT/2))) > i;
+    uint16_t ledCount = (NumberOfLedSegments.get()*PLAYER_SEGMENT_LEDS) / 2;
+    for (i=0; i<ledCount; i++) {
+        bool lit = (n*ledCount) > i;
         _LED.setPixelColor(i*2, lit ? _ledColor : 0x000000UL);
         _LED.setPixelColor((i*2+1), lit ? _ledColor : 0x000000UL);
         if (lit) lastLit = i;

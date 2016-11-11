@@ -19,18 +19,12 @@ public:
     void restoreFromEEPROM();
     void writePixels();
     void writeClock();
-    void setLevel(uint8_t d);
-    uint8_t getLevel();
 
 private:
     unsigned long _startMillis;
     unsigned long _lastUpdate;
     unsigned long _lastLEDUpdate;
     long _lastClock;
-    float _energy1;
-    uint8_t _difficulty;
-
-    float goalEnergy();
 
 };
 

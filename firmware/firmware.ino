@@ -32,6 +32,7 @@
 #include "ClockDisplay.h"
 #include "Players.h"
 #include "Util.h"
+#include "Settings.h"
 
 // General Arduino features
 #include <Arduino.h>
@@ -90,6 +91,12 @@ void setup()
     wdt_enable(WDTO_250MS);
 
 #ifdef DEBUG
+    Serial.print(F("Settings: MaximumPowerWatts="));
+    Serial.print(MaximumPowerWatts.get());
+    Serial.print(F(" GameDurationSeconds="));
+    Serial.print(GameDurationSeconds.get());
+    Serial.print(F(" NumberOfLedSegments="));
+    Serial.println(NumberOfLedSegments.get());
     Serial.println(F("setup() E"));
 #endif
 }

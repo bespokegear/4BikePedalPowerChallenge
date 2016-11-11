@@ -1,14 +1,16 @@
 #pragma once
 
+#ifdef DEBUG
+#include <Arduino.h>
+#endif
 #include <stdint.h>
 #include <EEPROM.h>
 
 template <class T>
 class PersistentSetting {
 public:
-    PersistentSetting(uint16_t eepromOffset, uint8_t disp, T min, T max, T def) : 
+    PersistentSetting(uint16_t eepromOffset, T min, T max, T def) : 
         _eepromOffset(eepromOffset),
-        _disp(disp),
         _min(min),
         _max(max),
         _def(def)
@@ -20,7 +22,7 @@ public:
     T load() {
         uint8_t* ptr = (uint8_t*)(&_value);
         for (uint8_t i=0; i<sizeof(T); i++) {
-            ptr[i] = EEPROM.read(i);
+            ptr[i] = EEPROM.read(_eepromOffset+i);
         }
         if (_value < _min || _value > _max) {
             _value = _def;
@@ -34,12 +36,21 @@ public:
     void save()
     {
         uint8_t* ptr = (uint8_t*)(&_value);
+#ifdef DEBUG
+        Serial.print(F("EEPROM write at "));
+        Serial.print(_eepromOffset);
+#endif
         for (uint8_t i=0; i<sizeof(T); i++) {
+#ifdef DEBUG
+            Serial.print('+');
+            Serial.print(i);
+#endif
             EEPROM.update(_eepromOffset+i, ptr[i]);
         }
+#ifdef DEBUG
+        Serial.println('.');
+#endif
     }
-
-    uint8_t disp() { return _disp; }
 
     T get() { return _value; }
     bool set(T v) { if (v >= _min && v<=_max) { _value = v; return true; } else { return false; } }
@@ -51,6 +62,12 @@ public:
     // as a uint8_t
     virtual bool setUi8Repr(uint8_t v) { return set((T)v); }
 
+    virtual void increment() {
+        if (_value++ > _max) {
+            _value = _min;
+        }
+    }
+
     size_t size() { return sizeof(T); }
 
 private:
@@ -58,7 +75,6 @@ private:
 
 protected:
     T _value;
-    uint8_t _disp;
     T _min;
     T _max;
     T _def;
@@ -66,11 +82,17 @@ protected:
 
 class ScaledIntSetting : public PersistentSetting<int> {
 public:
-    ScaledIntSetting(uint16_t eepromOffset, uint8_t disp, int min, int max, int def, int scale) :
-        PersistentSetting<int>(eepromOffset, disp, min, max, def),
+    ScaledIntSetting(uint16_t eepromOffset, int min, int max, int def, int scale) :
+        PersistentSetting<int>(eepromOffset, min, max, def),
         _scale(scale) {;}
     uint8_t getUi8Repr() { return _value/_scale; }
     bool setUi8Repr(uint8_t v) { return set(v*_scale); }
+    virtual void increment() {
+        uint16_t r=getUi8Repr() + 1;
+        if (!setUi8Repr(r)) {
+            _value = _min;
+        }
+    }
 
 private:
     int _scale;

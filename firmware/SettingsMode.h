@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include "Mode.h"
+#include "Settings.h"
 
 #define SETTINGS_COUNT 3
 
@@ -11,7 +12,9 @@ public:
     void start();
     void stop();
     void modeUpdate();
+    void display();
     bool isFinished();
+
 
 private:
     int8_t _idx;

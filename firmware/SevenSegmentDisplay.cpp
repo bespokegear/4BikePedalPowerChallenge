@@ -34,16 +34,6 @@ SevenSegmentDisplay::SevenSegmentDisplay(uint8_t SLatchPin, uint8_t SClkPin, uin
     _SDataPin(SDataPin),
     _SEnablePin(SEnablePin)
 {
-#ifdef DEBUG7SEG
-    Serial.print(F("SevenSegmentDisplay::SevenSegmentDisplay lat="));
-    Serial.print(SLatchPin);
-    Serial.print(F(" clk="));
-    Serial.print(SClkPin);
-    Serial.print(F(" dat="));
-    Serial.println(SDataPin);
-    Serial.print(F(" ebl="));
-    Serial.println(SEnablePin);
-#endif
 }
 
 
@@ -55,6 +45,14 @@ void SevenSegmentDisplay::begin()
 {
 #ifdef DEBUG7SEG
     Serial.println(F("SevenSegmentDisplay::begin"));
+    Serial.print(F("SevenSegmentDisplay::SevenSegmentDisplay lat="));
+    Serial.print(_SLatchPin);
+    Serial.print(F(" clk="));
+    Serial.print(_SClkPin);
+    Serial.print(F(" dat="));
+    Serial.println(_SDataPin);
+    Serial.print(F(" ebl="));
+    Serial.println(_SEnablePin);
 #endif
     pinMode(_SLatchPin,  OUTPUT);
     pinMode(_SClkPin,    OUTPUT);
@@ -65,16 +63,15 @@ void SevenSegmentDisplay::begin()
 
 void SevenSegmentDisplay::clear()
 {
-#ifdef DEBUG7SEG
+#ifdef DEBUGFUNC
     Serial.println(F("SevenSegmentDisplay::clear"));
 #endif
     display(' ', ' ', ' ');
 }
 
-void SevenSegmentDisplay::display(char str[3])
+void SevenSegmentDisplay::display(const char* str)
 {
     display((uint8_t)str[0], (uint8_t)str[1], (uint8_t)str[2]);
-
 }
 
 void SevenSegmentDisplay::display(int16_t i, bool zeroPad)
@@ -91,6 +88,25 @@ void SevenSegmentDisplay::display(int16_t i, bool zeroPad)
     }
 }
 
+void SevenSegmentDisplay::displaySetting(char c, int8_t i, bool zeroPad)
+{
+    if (i < -9 || i > 99) {
+        this->display("Err");
+    } else {
+        if (i<0) {
+            i *= -1;
+            display(c, '-', i%10);
+        } else {
+            if (i < 10) {
+                display(c, zeroPad ? '0' : ' ', i);
+            } else {
+                display(c, (i/10)%10, i%10);
+            }
+        }
+
+    }
+}
+
 void SevenSegmentDisplay::display(uint8_t c1, uint8_t c2, uint8_t c3, uint8_t decimalPosition)
 {
 #if SEG_TYPE == SEG_TYPE_REINNOVATION
@@ -104,13 +120,17 @@ void SevenSegmentDisplay::display(uint8_t c1, uint8_t c2, uint8_t c3, uint8_t de
 #endif
 
 #ifdef DEBUG7SEG
-    Serial.print(F("SevenSegmentDisplay::display, digits: "));
-    Serial.print(d1);
-    Serial.print(' ');
-    Serial.print(d2);
-    Serial.print(' ');
-    Serial.print(d3);
-    Serial.print(F(" dp="));
+    Serial.print(F("SevenSegmentDisplay::display, \""));
+    Serial.print(d3 <= 9 ? (char)('0'+d3) : (char)d3);
+    Serial.print(d2 <= 9 ? (char)('0'+d2) : (char)d2);
+    Serial.print(d1 <= 9 ? (char)('0'+d1) : (char)d1);
+    Serial.print(F("\" (0x"));
+    Serial.print(d3, HEX);
+    Serial.print(F(", 0x"));
+    Serial.print(d2, HEX);
+    Serial.print(F(", 0x"));
+    Serial.print(d1, HEX);
+    Serial.print(F(") dp="));
     Serial.println(decimalPosition);
 #endif
     // Set latch low so the LED1 don't change while sending in bits

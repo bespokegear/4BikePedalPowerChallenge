@@ -4,16 +4,12 @@
 #include "Util.h"
 #include "ClockDisplay.h"
 #include "Players.h"
+#include "Settings.h"
 
 _GameMode GameMode;
 
 _GameMode::_GameMode()
 {
-    _difficulty = EEPROM.read(EEPROM_LEVEL_ADDRESS);
-    if (_difficulty < 1 || _difficulty > GAME_LEVEL_MAX) {
-        // bad value from EEPROM
-        _difficulty = 1;
-    }
 }
 
 void _GameMode::begin()
@@ -29,7 +25,6 @@ void _GameMode::start()
 #ifdef DEBUG
     Serial.println(F("GameMode start"));
 #endif
-    _energy1 = 0;
     _startMillis = millis();
     _lastUpdate = _startMillis;
     _lastLEDUpdate = _startMillis;
@@ -105,7 +100,7 @@ void _GameMode::writePixels()
 
 bool _GameMode::isFinished()
 {
-    if (millis() > _startMillis+((unsigned long)GAME_LENGTH_SECONDS*1000)) {
+    if (millis() > _startMillis+((unsigned long)GameDurationSeconds.get()*1000)) {
         ClockDisplay.display("EOG");
         return true;
     } else {
@@ -135,18 +130,4 @@ void _GameMode::writeClock()
     _lastClock = tenths;
 }
 
-void _GameMode::setLevel(uint8_t d)
-{
-    _difficulty = d;
-}
-
-uint8_t _GameMode::getLevel()
-{
-    return _difficulty;
-}
-
-float _GameMode::goalEnergy() 
-{
-    return _difficulty * GAME_LEVEL_ENERGY_STEP;
-}
 

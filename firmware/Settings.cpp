@@ -1,8 +1,9 @@
 #include "Settings.h"
+#include "Config.h"
 
-//                                 EEROM,   MenuID, Min,    Max,    Default,    Scale
-ScaledIntSetting MaximumPowerWatts(0,       'P',    10,     990,    100,        10);
-ScaledIntSetting GameDurationSeconds(0,     'd',    10,     990,    30,         10);
-ScaledIntSetting NumberOfLedSegments(0,     'L',    1,      3,      1,          1 );
+//                                 EEROM,   Min,    Max,                Default,    Scale
+ScaledIntSetting MaximumPowerWatts(0,       100,    1000,               500,        100);
+ScaledIntSetting GameDurationSeconds(4,     10,     120,                30,         10);
+ScaledIntSetting NumberOfLedSegments(8,     1,      PLAYER_SEGMENT_MAX, 1,          1 );
 
 
