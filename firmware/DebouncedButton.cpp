@@ -1,67 +1,68 @@
 #include <Arduino.h>
 #include "DebouncedButton.h"
-#include "CorrectedMillis.h"
 
 DebouncedButton::DebouncedButton(uint8_t pin, bool pullup) :
-    _pin(pin),
-    _pullup(pullup),
-    _count(0),
-    _last(0),
-    _lastPress(0)
+    RawButton(pin, pullup)
 {
 }
 
-void DebouncedButton::begin()
+void DebouncedButton::begin(uint8_t threshold, uint8_t delay)
 {
-    if (_pullup)
-        pinMode(_pin, INPUT_PULLUP);
-    else
-        pinMode(_pin, INPUT);
+    RawButton::begin();
+    _threshold = threshold;
+    _delay = delay;
+    _lastUpdate = 0;
+    _wasPressed = false;
+    setState(false);
+}
+
+// over-rides RawButton::isPressed
+bool DebouncedButton::isPressed(bool once)
+{
+    if (!once)
+        return _state;
+
+    if (_state) {
+        if (_released) {
+            _released = false;
+            return true;
+        } 
+
+    }
+    return false;
+}
+
+bool DebouncedButton::wasPressed()
+{
+    bool w = _wasPressed;
+    _wasPressed = false;
+    return w;
 }
 
 void DebouncedButton::update()
 {
-    bool on = valueNow();
-    if (on) {
-        if (millis() - _last >= BUTTON_DEBOUNCE_MS && _count < BUTTON_DEBOUNCE_COUNT) {
-            _last = millis();
-            _count++;
+    if (millis() > _lastUpdate + _delay) {
+        if (RawButton::isPressed() != _state) {
+            _counter++;
+            if (_counter > _threshold) {
+                setState(!_state);
+            }
+        } else if (_counter > 0) {
+            _counter = 0;
         }
-    } else {
-        _count = 0;
-        _last = 0;
+        _lastUpdate = millis();
     }
 }
 
-bool DebouncedButton::isPressed(bool constant, bool reset)
+void DebouncedButton::setState(bool newState)
 {
-    if (!constant && millis() < _lastPress + BUTTON_NOREPEAT_MS) {
-        return false;
-    }
-    bool v = _count >= BUTTON_DEBOUNCE_COUNT;
-    if (v && reset && !constant) {
-        _lastPress = millis();   
-    }
-    return v;
-}
-
-bool DebouncedButton::valueNow()
-{
-    if (_pullup) {
-        return !digitalRead(_pin);
+    if (newState) { 
+        _wasPressed = true;
     } else {
-        return digitalRead(_pin);
+        _released = true;
     }
-}
-
-void DebouncedButton::set(bool on)
-{
-    if (on) {
-        _count = BUTTON_DEBOUNCE_COUNT;
-        _last = 0;
-    } else {
-        _count = 0;
-        _last = 0;
-    }
+    _state = newState;
+    _counter = 0;
+    _lastStateChange = millis();
 }
 
