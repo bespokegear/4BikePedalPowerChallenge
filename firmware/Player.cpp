@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Config.h"
 #include "Settings.h"
+#include "Util.h"
 #include "CorrectedMillis.h"
 
 Player::Player(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm, 
@@ -73,7 +74,7 @@ void Player::displayLED(float n)
     uint16_t i;
     uint16_t lastLit = 0;
     bool lit;
-    uint16_t ledCount = (NumberOfLedSegments.get()*PLAYER_SEGMENT_LEDS) / 2;
+    uint16_t ledCount = playerLedCount() / 2;
     for (i=0; i<ledCount; i++) {
         bool lit = (n*ledCount) > i;
         _LED.setPixelColor(i*2, lit ? _ledColor : 0x000000UL);

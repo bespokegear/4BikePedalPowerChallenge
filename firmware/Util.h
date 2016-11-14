@@ -13,6 +13,10 @@ float calculateLinearity(float percent, float linearity);
 // Note: device is Allegro ACS756SCB-050B-PFF-T Bi-directional 50A hall effect sensor
 float currentConversion(const uint8_t pin, const float vSupply);
 
+// Tell us how many LEDs there are in use (note: number of segments is runtime
+// configurable).
+uint16_t playerLedCount();
+
 // From the MemoryFree library, https://github.com/maniacbug/MemoryFree
 #ifdef __cplusplus
 extern "C" {

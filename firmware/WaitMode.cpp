@@ -5,6 +5,7 @@
 #include "Players.h"
 #include "Settings.h"
 #include "CorrectedMillis.h"
+#include "Util.h"
 
 _WaitMode WaitMode;
 
@@ -29,7 +30,7 @@ void _WaitMode::start()
 #endif
     // Clean button presses from other modes
     ClockDisplay.display("Hi!");
-    _wipe = NumberOfLedSegments.get()*PLAYER_SEGMENT_LEDS;
+    _wipe = playerLedCount();
     _last = millis();
 }
 

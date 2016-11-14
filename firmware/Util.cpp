@@ -1,6 +1,7 @@
+#include <Arduino.h>
 #include "Util.h"
 #include "Config.h"
-#include <Arduino.h>
+#include "Settings.h"
 
 float voltageConversion(const uint8_t pin, const uint16_t r1KOhm, const uint16_t r2KOhm)
 {
@@ -17,6 +18,10 @@ float currentConversion(const uint8_t pin, const float vSupply)
 {
     //return (((VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET)*analogRead(pin)/1024.0)-(vSupply/2.0)) / (0.04*vSupply/(VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET));
     return ((vSupply/2.0)-((VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET)*analogRead(pin)/1024.0)) / (0.04*vSupply/(VIN_REF_VOLTS+CURRENT_REF_VOLTS_OFFSET));
+}
+
+uint16_t playerLedCount() {
+    return NumberOfLedSegments.get()*PLAYER_SEGMENT_LEDS;
 }
 
 // From the MemoryFree library, https://github.com/maniacbug/MemoryFree
