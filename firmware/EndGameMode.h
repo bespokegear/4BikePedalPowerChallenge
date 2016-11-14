@@ -13,6 +13,7 @@ private:
     unsigned long _start;
     unsigned long _last;
     uint8_t _winner;
+    int16_t _wipe;
 
     uint8_t getWinner();
 };

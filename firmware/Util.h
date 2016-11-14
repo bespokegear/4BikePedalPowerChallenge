@@ -17,6 +17,10 @@ float currentConversion(const uint8_t pin, const float vSupply);
 // configurable).
 uint16_t playerLedCount();
 
+// Change a color's brightness. A brightness value of 0.5 dims the color to
+// 50% intensity.
+uint32_t colorBrightness(uint32_t color, float brightness);
+
 // From the MemoryFree library, https://github.com/maniacbug/MemoryFree
 #ifdef __cplusplus
 extern "C" {

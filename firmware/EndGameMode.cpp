@@ -4,6 +4,7 @@
 #include "Settings.h"
 #include "Players.h"
 #include "CorrectedMillis.h"
+#include "Util.h"
 
 _EndGameMode EndGameMode;
 
@@ -28,6 +29,7 @@ void _EndGameMode::start()
     Players[_winner].fillup();
     ClockDisplay.display('P', _winner+1, '!');
     _start = millis();
+    _wipe = (int16_t)(playerLedCount() / 2);
 }
 
 void _EndGameMode::stop()
@@ -43,57 +45,50 @@ void _EndGameMode::modeUpdate()
 {
     // flash clock output
     ClockDisplay.setEnable(((millis() - _start)/800)%2==0);
-    Adafruit_NeoPixel& LED = Players[_winner].LED();
-    uint16_t max = Players[_winner].getMaxLED() * 2;
-    uint8_t r = 255;
-    uint8_t g = 255;
-    uint8_t b = 255;
-    uint16_t i;
 
-    if (millis() - _last > 100) {
-        i = random(0, max);
-        switch (random(17)) {
-        case 0:
-            g = 220;
-            break;
-        case 1:
-            r = 220;
-            break;
-        case 2:
-        case 3:
-        case 4:
-            r = 80;
-            g = 128;
-            break;
-        default:
-            r = 30;
-            g = 70;
-            b = 205;
-            break;
-        }
-        _last = millis();
-        LED.setPixelColor(i, r, g, b); 
+    // wipe the loser displays
+    if (_wipe >= 0) {
+        for (uint8_t p=0; p<PLAYER_COUNT; p++) {
+            if (p != _winner) {
+                if (_wipe == (int16_t)Players[p].getMaxLED()) {
+                    // dim the max indicator for non-winners
+                    Players[p].LED().setPixelColor((_wipe*2), colorBrightness(PLAYER_MAX_COLOR[p], 0.5));
+                    Players[p].LED().setPixelColor((_wipe*2)+1, colorBrightness(PLAYER_MAX_COLOR[p], 0.5));
+                } else {
+                    // for non-winners, turn off other pixels
+                    Players[p].LED().setPixelColor(_wipe, 0x000000UL);
+                }
+                // send changed pixel data to LEDs
+                Players[p].showLED();
+            }
+        } 
+        _wipe--;
     }
 
-    r /= 3;
-    g /= 3;
-    b /= 3;
-    if (i > 0) LED.setPixelColor(i-1, r, g, b); 
-    if (i < max-1) LED.setPixelColor(i+1, r, g, b); 
+    if (millis() > _last + END_GAME_UPDATE_MS) {
+#ifdef DEBUG
+    Serial.println(F("throb update"));
+#endif
+        // throb the winner
+        float throb = (millis() - _start) % END_GAME_THROB_MS;
+        if (throb > (END_GAME_THROB_MS/2)) {
+            throb = (END_GAME_THROB_MS-throb)/(END_GAME_THROB_MS/2);
+        } else {
+            throb = throb/(END_GAME_THROB_MS/2);
+        }
+#ifdef DEBUG
+        Serial.print(F("throb="));
+        Serial.println(throb);
+#endif
+        for (int16_t i=0; i<(Players[_winner].getMaxLED()+1)*2; i++) {
+            uint32_t col = colorBrightness(PLAYER_LED_COLOR[_winner], throb);
+            Players[_winner].LED().setPixelColor(i, col);
+            Serial.println(i);
+        }
+        Players[_winner].showLED();
 
-    for(i=0; i<max; i++) {
-        const uint32_t color = LED.getPixelColor(i);
-        r = color >> 16; 
-        g = (color - r) >> 8;
-        b = color % 256;
-        if (r > 0) r--;
-        if (g > 0) g--;
-        if (b > 0) b--;
-        LED.setPixelColor(i, r, g, b); 
-    }   
-
-    Players[_winner].showLED();
-
+        _last = millis();
+    }
 }
 
 uint8_t _EndGameMode::getWinner()
