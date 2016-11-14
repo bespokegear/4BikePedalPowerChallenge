@@ -77,7 +77,7 @@ void _EndGameMode::modeUpdate()
             throb = throb/(END_GAME_THROB_MS/2);
         }
         for (uint16_t row=0; row<Players[_winner].getMaxIlluminatedRow(); row++) {
-            Players[_winner].LED().setPixelColor(row, colorBrightness(PLAYER_LED_COLOR[_winner], throb));
+            Players[_winner].setRowColor(row, colorBrightness(PLAYER_LED_COLOR[_winner], throb));
         }
         Players[_winner].showLED();
 
