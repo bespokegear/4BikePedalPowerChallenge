@@ -66,9 +66,6 @@ void _EndGameMode::modeUpdate()
     }
 
     if (millis() > _last + END_GAME_UPDATE_MS) {
-#ifdef DEBUG
-    Serial.println(F("throb update"));
-#endif
         // throb the winner
         float throb = (millis() - _start) % END_GAME_THROB_MS;
         if (throb > (END_GAME_THROB_MS/2)) {
@@ -76,14 +73,9 @@ void _EndGameMode::modeUpdate()
         } else {
             throb = throb/(END_GAME_THROB_MS/2);
         }
-#ifdef DEBUG
-        Serial.print(F("throb="));
-        Serial.println(throb);
-#endif
         for (int16_t i=0; i<(Players[_winner].getMaxLED()+1)*2; i++) {
             uint32_t col = colorBrightness(PLAYER_LED_COLOR[_winner], throb);
             Players[_winner].LED().setPixelColor(i, col);
-            Serial.println(i);
         }
         Players[_winner].showLED();
 
