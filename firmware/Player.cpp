@@ -13,7 +13,7 @@ Player::Player(uint8_t vinPin, uint16_t r1KOhm, uint16_t r2KOhm,
     CurrentSampler(curPin, vSupply),
     _LED(ledCount, ledPin, ledType),
     _ledColor(ledColor),
-    _maxLedColor(maxColor)
+    _maxIlluminatedRowColor(maxColor)
 {
 }
 
@@ -66,29 +66,36 @@ float Player::getMaxPower()
     return _maxPower;
 }
 
-void Player::displayLED(float n)
+void Player::setRowColor(uint16_t row, uint32_t color)
+{
+    _LED.setPixelColor(row*2, color);
+    _LED.setPixelColor((row*2)+1, color);
+}
+
+void Player::displayPower(float p)
 {
 #ifdef DEBUGFUNC
-    Serial.println(F("Player::displayLED"));
+    Serial.print(F("Player::displayPower p="));
+    Serial.println(p, 1);
 #endif
     uint16_t i;
-    uint16_t lastLit = 0;
+    uint16_t lastRowLit = 0;
     bool lit;
-    uint16_t ledCount = playerLedCount() / 2;
-    for (i=0; i<ledCount; i++) {
-        bool lit = (n*ledCount) > i;
-        _LED.setPixelColor(i*2, lit ? _ledColor : 0x000000UL);
-        _LED.setPixelColor((i*2+1), lit ? _ledColor : 0x000000UL);
-        if (lit) lastLit = i;
+    uint16_t rowCount = playerLedCount() / 2;
+    uint16_t rowsToLight = (p*rowCount)/MaximumPowerWatts.get();
+    for (i=0; i<rowCount; i++) {
+        bool rowLit = rowsToLight > i;
+        setRowColor(i, rowLit ? _ledColor : 0x000000UL);
+        if (rowLit) 
+            lastRowLit = i;
     }
 
-    if (lastLit >= _maxLed) {
-        _maxLed = lastLit;
+    if (lastRowLit >= _maxIlluminatedRow) {
+        _maxIlluminatedRow = lastRowLit;
     }
 
-    if (_maxLed>0) {
-        _LED.setPixelColor(_maxLed*2, _maxLedColor);
-        _LED.setPixelColor((_maxLed*2)+1, _maxLedColor);
+    if (_maxIlluminatedRow>0) {
+        setRowColor(_maxIlluminatedRow, _maxIlluminatedRowColor);
     }
 
     showLED();
@@ -96,9 +103,9 @@ void Player::displayLED(float n)
 
 void Player::reset()
 {
-    _maxLed = 0;
+    _maxIlluminatedRow = 0;
     _maxPower = 0.;
-    displayLED(0.0);
+    displayPower(0.0);
 }
 
 void Player::showLED()
@@ -114,6 +121,6 @@ void Player::showLED()
 
 void Player::fillup()
 {
-    displayLED(_maxPower / MaximumPowerWatts.get());
+    displayPower(_maxPower / MaximumPowerWatts.get());
 }
 

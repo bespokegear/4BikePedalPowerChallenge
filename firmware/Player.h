@@ -29,10 +29,13 @@ public:
     float getMaxPower();
 
     // Get max power in Watts since last reset()
-    uint16_t getMaxLED() { return _maxLed; }
+    uint16_t getMaxIlluminatedRow() { return _maxIlluminatedRow; }
 
-    // Update LED graph with value (n=0 is none, n=1 is all)
-    void displayLED(float n);
+    // Set LED row (of 2) to color
+    void setRowColor(uint16_t row, uint32_t color);
+
+    // Update LED graph with power (p) in watts
+    void displayPower(float p);
 
     // reset the recent maximum value
     void reset();
@@ -48,8 +51,8 @@ public:
 private:
     Adafruit_NeoPixel _LED;
     uint32_t _ledColor;
-    uint32_t _maxLedColor;
-    uint16_t _maxLed;
+    uint32_t _maxIlluminatedRowColor;
+    uint16_t _maxIlluminatedRow;
     float _maxPower;
 
 };

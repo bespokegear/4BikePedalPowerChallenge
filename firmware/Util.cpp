@@ -24,6 +24,10 @@ uint16_t playerLedCount() {
     return NumberOfLedSegments.get()*PLAYER_SEGMENT_LEDS;
 }
 
+uint16_t playerDisplayRowCount() {
+    return playerLedCount() / 2;
+}
+
 uint32_t colorBrightness(uint32_t color, float brightness)
 {
     uint16_t r = (color >> 16) * brightness;

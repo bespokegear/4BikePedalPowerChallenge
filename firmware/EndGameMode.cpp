@@ -29,7 +29,7 @@ void _EndGameMode::start()
     Players[_winner].fillup();
     ClockDisplay.display('P', _winner+1, '!');
     _start = millis();
-    _wipe = (int16_t)(playerLedCount() / 2);
+    _wipe = playerDisplayRowCount();
 }
 
 void _EndGameMode::stop()
@@ -50,13 +50,16 @@ void _EndGameMode::modeUpdate()
     if (_wipe >= 0) {
         for (uint8_t p=0; p<PLAYER_COUNT; p++) {
             if (p != _winner) {
-                if (_wipe == (int16_t)Players[p].getMaxLED()) {
+                if (_wipe == (int16_t)Players[p].getMaxIlluminatedRow()) {
                     // dim the max indicator for non-winners
-                    Players[p].LED().setPixelColor((_wipe*2), colorBrightness(PLAYER_MAX_COLOR[p], 0.5));
-                    Players[p].LED().setPixelColor((_wipe*2)+1, colorBrightness(PLAYER_MAX_COLOR[p], 0.5));
+                    Players[p].setRowColor(_wipe, colorBrightness(PLAYER_MAX_COLOR[p], 0.1));
+                } else if (_wipe > (int16_t)Players[p].getMaxIlluminatedRow()) {
+                    // for non-winners, turn off pixels above max (should't really be necessary, but
+                    // just in case of glitches / testing cases...
+                    Players[p].setRowColor(_wipe, 0x000000UL);
                 } else {
-                    // for non-winners, turn off other pixels
-                    Players[p].LED().setPixelColor(_wipe, 0x000000UL);
+                    // and draw a dimmed version of the bar below the winning line
+                    Players[p].setRowColor(_wipe, colorBrightness(PLAYER_LED_COLOR[p], 0.1));
                 }
                 // send changed pixel data to LEDs
                 Players[p].showLED();
@@ -73,9 +76,8 @@ void _EndGameMode::modeUpdate()
         } else {
             throb = throb/(END_GAME_THROB_MS/2);
         }
-        for (int16_t i=0; i<(Players[_winner].getMaxLED()+1)*2; i++) {
-            uint32_t col = colorBrightness(PLAYER_LED_COLOR[_winner], throb);
-            Players[_winner].LED().setPixelColor(i, col);
+        for (uint16_t row=0; row<Players[_winner].getMaxIlluminatedRow(); row++) {
+            Players[_winner].LED().setPixelColor(row, colorBrightness(PLAYER_LED_COLOR[_winner], throb));
         }
         Players[_winner].showLED();
 

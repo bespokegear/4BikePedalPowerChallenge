@@ -139,8 +139,8 @@ void _GameMode::writePixels()
         buf[idx++] = '0' + ((powerInt/100) % 10);
         buf[idx++] = '0' + ((powerInt/10) % 10);
         buf[idx++] = '0' + (powerInt % 10);
-        float n = Players[i].getPower()/MaximumPowerWatts.get();
-        Players[i].displayLED(n);
+        // TODO: send power, instead of constant (for testing)
+        Players[i].displayPower(Players[i].getPower());
     }
     // append time to buf
     long time100ths = (millis()-_startMillis);
