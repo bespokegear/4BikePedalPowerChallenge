@@ -63,6 +63,7 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 // GameMode parameters
 #define GAME_LEVEL_ENERGY_STEP      1000
 #define GAME_LEVEL_MAX              20
+#define GO_DISPLAY_MS               750
 
 // Other mode settings
 #define COUNTDOWN_SECONDS           3

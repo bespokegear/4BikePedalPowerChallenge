@@ -168,24 +168,28 @@ bool _GameMode::isFinished()
 
 void _GameMode::writeClock()
 {
-    long tenths = (GameDurationSeconds.get()*10)-((millis()-_startMillis)/100);
-    if (tenths == _lastClock || tenths < 0) { return; }
-    uint8_t c1, c2, c3, decPt;
-    if (tenths < 1000) {
-        c1 = (tenths / 100) % 10;
-        c2 = (tenths / 10) % 10;
-        c3 = tenths % 10;
-        decPt = 2;
-    } else if (tenths > -1) {
-        c1 = (tenths / 1000) % 10;
-        c2 = (tenths / 100) % 10;
-        c3 = (tenths / 10) % 10;
-        decPt = 1;
+    if (millis()-_startMillis < GO_DISPLAY_MS) {
+        ClockDisplay.display("Go!");
     } else {
-        ClockDisplay.display("Err");
+        long tenths = (GameDurationSeconds.get()*10)-((millis()-_startMillis)/100);
+        if (tenths == _lastClock || tenths < 0) { return; }
+        uint8_t c1, c2, c3, decPt;
+        if (tenths < 1000) {
+            c1 = (tenths / 100) % 10;
+            c2 = (tenths / 10) % 10;
+            c3 = tenths % 10;
+            decPt = 2;
+        } else if (tenths > -1) {
+            c1 = (tenths / 1000) % 10;
+            c2 = (tenths / 100) % 10;
+            c3 = (tenths / 10) % 10;
+            decPt = 1;
+        } else {
+            ClockDisplay.display("Err");
+        }
+        ClockDisplay.display(c1==0 ? ' ' : c1, c2, c3, decPt);
+        _lastClock = tenths;
     }
-    ClockDisplay.display(c1==0 ? ' ' : c1, c2, c3, decPt);
-    _lastClock = tenths;
 }
 
 
