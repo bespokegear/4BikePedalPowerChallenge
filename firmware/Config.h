@@ -11,7 +11,7 @@ const uint8_t  PLAYER_IIN_PINS[]    = {         A7,         A5,         A3,     
 const uint8_t  PLAYER_PWM_PINS[]    = {          6,          7,          8,          9 };
 const uint8_t  PLAYER_LED_PINS[]    = {         14,         15,         16,         17 };
 const float    PLAYER_VSUP[]        = {        5.0,        5.0,        5.0,        5.0 };
-const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFFFF22UL };
+const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF9400UL };
 const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL };
 // Player config (applies to all players)
 #define PLAYER_VIN_R1               10
