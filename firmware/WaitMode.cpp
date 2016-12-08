@@ -32,6 +32,7 @@ void _WaitMode::start()
     ClockDisplay.display("Hi!");
     _wipe = playerDisplayRowCount();
     _last = millis();
+    _start = _last;
 }
 
 void _WaitMode::stop()
@@ -61,5 +62,10 @@ void _WaitMode::modeUpdate()
         }
         _last = millis();
     }
+}
+
+bool _WaitMode::isFinished()
+{
+    return millis() > _start + PROMO_MODE_ACTIVATION_MS;
 }
 
