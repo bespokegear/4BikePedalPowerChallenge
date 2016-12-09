@@ -81,6 +81,6 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define END_GAME_UPDATE_MS          25
 
 // Promo mode related constants
-#define PROMO_MODE_LIT_TIME_MS      2000
+#define PROMO_MODE_LIT_TIME_MS      1000
 #define PROMO_MODE_ACTIVATION_MS    120000
 
