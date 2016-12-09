@@ -58,9 +58,15 @@ void _GameMode::dumpResults()
     memset(buf, 0, sizeof(char)*(PLAYER_COUNT*6)+7+1+1);
     memcpy(buf, "aRESULT", 7);
     uint8_t idx = 7;
-    int16_t powerInt;
+    int32_t powerInt;
     for (uint8_t i=0; i<PLAYER_COUNT; i++) {
         powerInt = Players[i].getMaxPower() > 0 ? Players[i].getMaxPower() * 100 : 0;
+#ifdef DEBUG
+        Serial.print(F("player="));
+        Serial.print(i);
+        Serial.print(F("powerInt="));
+        Serial.println(powerInt);
+#endif
         buf[idx++] = 'A' + i;
         buf[idx++] = '0' + ((powerInt/10000) % 10);
         buf[idx++] = '0' + ((powerInt/1000) % 10);
