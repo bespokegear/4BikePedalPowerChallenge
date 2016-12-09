@@ -20,7 +20,7 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define PLAYER_VIN_THRESHOLD        (PLAYER_VIN_FUDGE_FACTOR + 0.2)
 #define PLAYER_SEGMENT_LEDS         60
 #define PLAYER_SEGMENT_MAX          3 
-#define PLAYER_LED_TYPE             (NEO_GRB + NEO_KHZ800)
+#define PLAYER_LED_TYPE             (NEO_RBG + NEO_KHZ800)
 #define PLAYER_LED_BRIGHTNESS       255
 #define PLAYER_LED_UPDATE_MS        250
 
