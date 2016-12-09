@@ -15,7 +15,7 @@ public:
     bool isFinished() { return _done; }
 
 private:
-    uint16_t _wipe;
+    int16_t _wipe;
     unsigned long _last;
     uint8_t _player;
     Stage _stage;

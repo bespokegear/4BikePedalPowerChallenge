@@ -64,7 +64,7 @@ void _PromoMode::modeUpdate()
         }
         break;
     case PlayerFade:
-        if (_wipe > 0) {
+        if (_wipe >= 0) {
             for (uint8_t p=0; p<PLAYER_COUNT; p++) {
                 Players[p].setRowColor(_wipe, 0x000000UL);
                 Players[p].showLED();
@@ -84,6 +84,10 @@ void _PromoMode::modeUpdate()
 
 void _PromoMode::lightPlayer(uint8_t player) 
 {
+#ifdef DEBUG
+    Serial.print(F("PromoMode::lightPlayer player="));
+    Serial.println(player+1);
+#endif
     setStage(PlayerLit);
     for(_wipe=0; _wipe<playerDisplayRowCount(); _wipe++) {
         Players[player].setRowColor(_wipe, PLAYER_LED_COLOR[player]);
@@ -93,6 +97,9 @@ void _PromoMode::lightPlayer(uint8_t player)
 
 void _PromoMode::startFade()
 {
+#ifdef DEBUG
+    Serial.println(F("PromoMode::startFade"));
+#endif
     setStage(PlayerFade);
     _wipe = playerDisplayRowCount(); 
 }
