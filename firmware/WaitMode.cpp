@@ -11,9 +11,6 @@ _WaitMode WaitMode;
 
 _WaitMode::_WaitMode()
 {
-#ifdef DEBUG
-    Serial.println(F("WaitMode::WaitMode()"));
-#endif
 }
 
 void _WaitMode::start()

@@ -11,9 +11,6 @@ _SettingsMode SettingsMode;
 _SettingsMode::_SettingsMode() :
     _idx(SETTINGS_COUNT)
 {
-#ifdef DEBUG
-    Serial.println(F("SettingsMode::SettingsMode()"));
-#endif
 }
 
 void _SettingsMode::start()

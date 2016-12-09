@@ -11,9 +11,6 @@ _PromoMode PromoMode;
 
 _PromoMode::_PromoMode()
 {
-#ifdef DEBUG
-    Serial.println(F("PromoMode::PromoMode()"));
-#endif
 }
 
 void _PromoMode::start()
