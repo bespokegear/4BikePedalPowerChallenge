@@ -73,8 +73,8 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define LED_CLOCK_CORRECTION        24.5
 
 // Button feel params
-#define DEBOUNCED_BUTTON_THRESHOLD  5
-#define DEBOUNCED_BUTTON_DELAY      5
+#define DEBOUNCED_BUTTON_THRESHOLD  4
+#define DEBOUNCED_BUTTON_DELAY      4
 
 // End game effects
 #define END_GAME_THROB_MS           1000
