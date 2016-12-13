@@ -50,10 +50,10 @@ void _EndGameMode::modeUpdate()
     if (_wipe >= 0) {
         for (uint8_t p=0; p<PLAYER_COUNT; p++) {
             if (p != _winner) {
-                if (_wipe == (int16_t)Players[p].getMaxIlluminatedRow()) {
+                if (_wipe == (int16_t)Players[p].getMaxIlluminatedRow()-1) {
                     // dim the max indicator for non-winners
                     Players[p].setRowColor(_wipe, colorBrightness(PLAYER_MAX_COLOR[p], 0.1));
-                } else if (_wipe > (int16_t)Players[p].getMaxIlluminatedRow()) {
+                } else if (_wipe > (int16_t)Players[p].getMaxIlluminatedRow()-1) {
                     // for non-winners, turn off pixels above max (should't really be necessary, but
                     // just in case of glitches / testing cases...
                     Players[p].setRowColor(_wipe, 0x000000UL);
