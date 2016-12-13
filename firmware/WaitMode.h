@@ -8,10 +8,12 @@ public:
     void start();
     void stop();
     void modeUpdate();
+    bool isFinished();
 
 private:
     uint16_t _wipe;
     unsigned long _last;
+    unsigned long _start;
 
 };
 

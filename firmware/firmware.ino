@@ -31,6 +31,7 @@
 #include "ButtonA.h"
 #include "ButtonB.h"
 #include "WaitMode.h"
+#include "PromoMode.h"
 #include "CountdownMode.h"
 #include "GameMode.h"
 #include "EndGameMode.h"
@@ -80,6 +81,7 @@ void setup()
 
     // Init game modes
     WaitMode.begin();
+    PromoMode.begin();
     CountdownMode.begin();
     GameMode.begin();
     EndGameMode.begin();
@@ -101,6 +103,9 @@ void loopDebug()
 #ifdef DEBUGMODE
     if (mode == &WaitMode) {
         Serial.println(F("in WaitMode"));
+    }
+    else if (mode == &PromoMode) {
+        Serial.println(F("in PromoMode"));
     }
     else if (mode == &CountdownMode) {
         Serial.println(F("in CountdownMode"));
@@ -150,7 +155,7 @@ void loop()
 
     // Detect button presses and behave appropriately
     if (ButtonA.isPressed()) {
-        if (mode == &WaitMode) {
+        if (mode == &WaitMode || mode == &PromoMode) {
             switchMode(&CountdownMode);
         } else if (mode == &CountdownMode) {
             switchMode(&GameMode);
@@ -162,7 +167,7 @@ void loop()
     }
 
     if (ButtonB.isPressed()) {
-        if (mode == &WaitMode) {
+        if (mode == &WaitMode || mode == &PromoMode) {
             switchMode(&SettingsMode);
         } else if (mode != &SettingsMode) {
             switchMode(&WaitMode);
@@ -174,7 +179,9 @@ void loop()
 
     // Handle modes timing out
     if (mode->isFinished()) {
-        if (mode == &CountdownMode) { switchMode(&GameMode); }
+        if (mode == &WaitMode) { switchMode(&PromoMode); }
+        else if (mode == &PromoMode) { switchMode(&WaitMode); }
+        else if (mode == &CountdownMode) { switchMode(&GameMode); }
         else if (mode == &GameMode) { switchMode(&EndGameMode); }
         else if (mode == &SettingsMode) { switchMode(&WaitMode); }
     }

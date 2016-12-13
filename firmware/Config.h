@@ -11,7 +11,7 @@ const uint8_t  PLAYER_IIN_PINS[]    = {         A7,         A5,         A3,     
 const uint8_t  PLAYER_PWM_PINS[]    = {          6,          7,          8,          9 };
 const uint8_t  PLAYER_LED_PINS[]    = {         14,         15,         16,         17 };
 const float    PLAYER_VSUP[]        = {        5.0,        5.0,        5.0,        5.0 };
-const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFFFF22UL };
+const uint32_t PLAYER_LED_COLOR[]   = { 0xFF2222UL, 0x22FF22UL, 0x2222FFUL, 0xFF9400UL };
 const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL };
 // Player config (applies to all players)
 #define PLAYER_VIN_R1               10
@@ -20,7 +20,7 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define PLAYER_VIN_THRESHOLD        (PLAYER_VIN_FUDGE_FACTOR + 0.2)
 #define PLAYER_SEGMENT_LEDS         60
 #define PLAYER_SEGMENT_MAX          3 
-#define PLAYER_LED_TYPE             (NEO_GRB + NEO_KHZ800)
+#define PLAYER_LED_TYPE             (NEO_RBG + NEO_KHZ800)
 #define PLAYER_LED_BRIGHTNESS       255
 #define PLAYER_LED_UPDATE_MS        250
 
@@ -63,6 +63,7 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 // GameMode parameters
 #define GAME_LEVEL_ENERGY_STEP      1000
 #define GAME_LEVEL_MAX              20
+#define GO_DISPLAY_MS               750
 
 // Other mode settings
 #define COUNTDOWN_SECONDS           3
@@ -72,11 +73,14 @@ const uint32_t PLAYER_MAX_COLOR[]   = { 0xFFFFFFUL, 0xFFFFFFUL, 0xFFFFFFUL, 0xFF
 #define LED_CLOCK_CORRECTION        24.5
 
 // Button feel params
-#define DEBOUNCED_BUTTON_THRESHOLD  5
-#define DEBOUNCED_BUTTON_DELAY      5
+#define DEBOUNCED_BUTTON_THRESHOLD  4
+#define DEBOUNCED_BUTTON_DELAY      4
 
 // End game effects
 #define END_GAME_THROB_MS           1000
 #define END_GAME_UPDATE_MS          25
 
+// Promo mode related constants
+#define PROMO_MODE_LIT_TIME_MS      1000
+#define PROMO_MODE_ACTIVATION_MS    120000
 

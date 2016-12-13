@@ -58,9 +58,15 @@ void _GameMode::dumpResults()
     memset(buf, 0, sizeof(char)*(PLAYER_COUNT*6)+7+1+1);
     memcpy(buf, "aRESULT", 7);
     uint8_t idx = 7;
-    int16_t powerInt;
+    int32_t powerInt;
     for (uint8_t i=0; i<PLAYER_COUNT; i++) {
         powerInt = Players[i].getMaxPower() > 0 ? Players[i].getMaxPower() * 100 : 0;
+#ifdef DEBUG
+        Serial.print(F("player="));
+        Serial.print(i);
+        Serial.print(F("powerInt="));
+        Serial.println(powerInt);
+#endif
         buf[idx++] = 'A' + i;
         buf[idx++] = '0' + ((powerInt/10000) % 10);
         buf[idx++] = '0' + ((powerInt/1000) % 10);
@@ -168,24 +174,28 @@ bool _GameMode::isFinished()
 
 void _GameMode::writeClock()
 {
-    long tenths = (GameDurationSeconds.get()*10)-((millis()-_startMillis)/100);
-    if (tenths == _lastClock || tenths < 0) { return; }
-    uint8_t c1, c2, c3, decPt;
-    if (tenths < 1000) {
-        c1 = (tenths / 100) % 10;
-        c2 = (tenths / 10) % 10;
-        c3 = tenths % 10;
-        decPt = 2;
-    } else if (tenths > -1) {
-        c1 = (tenths / 1000) % 10;
-        c2 = (tenths / 100) % 10;
-        c3 = (tenths / 10) % 10;
-        decPt = 1;
+    if (millis()-_startMillis < GO_DISPLAY_MS) {
+        ClockDisplay.display("Go!");
     } else {
-        ClockDisplay.display("Err");
+        long tenths = (GameDurationSeconds.get()*10)-((millis()-_startMillis)/100);
+        if (tenths == _lastClock || tenths < 0) { return; }
+        uint8_t c1, c2, c3, decPt;
+        if (tenths < 1000) {
+            c1 = (tenths / 100) % 10;
+            c2 = (tenths / 10) % 10;
+            c3 = tenths % 10;
+            decPt = 2;
+        } else if (tenths > -1) {
+            c1 = (tenths / 1000) % 10;
+            c2 = (tenths / 100) % 10;
+            c3 = (tenths / 10) % 10;
+            decPt = 1;
+        } else {
+            ClockDisplay.display("Err");
+        }
+        ClockDisplay.display(c1==0 ? ' ' : c1, c2, c3, decPt);
+        _lastClock = tenths;
     }
-    ClockDisplay.display(c1==0 ? ' ' : c1, c2, c3, decPt);
-    _lastClock = tenths;
 }
 
 
